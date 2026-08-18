@@ -20,6 +20,7 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 | :--- | :--- |
 | **`using-superpowers`** | 技能优先检索与启动调度中心，确保所有请求在响应前先检查并调用适用的 Skill。 |
 | **`brainstorming`** | 头脑风暴与需求探索，在开始任何功能实现前先探索设计方案与用户意图。 |
+| **`grilling`** | 极限推敲与决策树收敛，对技术方案与边界情况进行压力测试，输出明确决策。 |
 | **`writing-plans`** | 编写清晰详尽的分步实施计划，包含检查点与风险分析。 |
 | **`executing-plans`** | 计划执行引擎，分批次执行任务并设立审查检查点。 |
 | **`test-driven-development`** | 测试驱动开发（TDD）规范，编写实现代码前先编写并运行失败测试（红-绿-重构）。 |
