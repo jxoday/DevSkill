@@ -23,14 +23,21 @@
 
 2. **检查并同步缺失的全局技能**：
    - 检查上述对应的全局技能目录下是否存在来自 DevSkill 的核心技能（如 `using-superpowers`, `android-architecture`, `android-native-dev`, `brainstorming`, `grilling`, `writing-plans`, `executing-plans`, `systematic-debugging`, `test-driven-development` 等）。
-   - 如果尚未安装或缺少技能，请自动克隆 https://github.com/jxoday/DevSkill 到临时目录，并将所有技能文件夹同步复制到你的全局技能目录中。
+   - **冲突处理策略**：
+     - **默认跳过（增量补齐，推荐）**：若本地已存在同名技能，**默认跳过不覆盖**，优先保护用户本地原有的个性化修改；
+     - **缺失补齐**：仅将本地缺失的技能文件夹从 https://github.com/jxoday/DevSkill 复制到全局目录；
+     - *(若用户显式要求“强制全量覆盖/更新”，才进行覆盖同步)*。
 
 3. **初始化当前项目的规范文件**：
-   - 检查当前项目根目录下是否存在 `AGENTS.md`。
-   - 如果不存在，请从 https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md 读取内容并在当前项目根目录创建 `AGENTS.md`。
+   - 检查当前项目根目录下是否存在 `AGENTS.md`：
+     - **若不存在**：直接从 https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md 下载并创建；
+     - **若已存在**：**必须主动询问用户（作者）的选择**：
+       - 🅰️ **增量合并（推荐）**：将 DevSkill 的核心规则（如 Skill 优先、顶部标准导入等）追加合并到现有 `AGENTS.md` 中，保留项目原有自定义规则；
+       - 🅱️ **全量覆盖**：使用 DevSkill 的 `AGENTS.md` 完全替换现有文件；
+       - 🆑 **跳过保持现状**：不做任何修改，完全保留当前文件。
 
 4. **完成汇报**：
-   - 汇报安装了哪些技能、全局路径位置，以及当前项目的 `AGENTS.md` 初始化状态。
+   - 汇报新增了哪些缺失技能、跳过了哪些已存在技能，以及当前项目的 `AGENTS.md` 处理结果。
 ````
 
 ---
