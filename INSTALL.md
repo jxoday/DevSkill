@@ -30,15 +30,15 @@
      - *(若用户显式要求“强制全量覆盖/更新”，才进行覆盖同步)*。
 
 3. **初始化当前项目的规范文件**：
-   - 检查当前项目根目录下是否存在 `AGENTS.md`：
-     - **若不存在**：直接从 https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md 下载并创建；
-     - **若已存在**：**必须主动询问用户（作者）的选择**：
-       - 🅰️ **增量合并（推荐）**：将 DevSkill 的核心规则（如 Skill 优先、顶部标准导入等）追加合并到现有 `AGENTS.md` 中，保留项目原有自定义规则；
+   - 检查当前项目的 `.agents/` 目录（如 `.agents/AGENTS.md`）或项目根目录（`AGENTS.md`）下是否存在规范文件：
+     - **若均不存在**：创建 `.agents/` 目录并从 https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md 下载保存为 `.agents/AGENTS.md`；
+     - **若已存在（在 `.agents/AGENTS.md` 或项目根目录）**：**必须主动询问用户（作者）的选择**：
+       - 🅰️ **增量合并（推荐）**：将 DevSkill 的核心规则（如 Skill 优先、顶部标准导入等）追加合并到现有的 `AGENTS.md` 中，保留项目原有自定义规则；
        - 🅱️ **全量覆盖**：使用 DevSkill 的 `AGENTS.md` 完全替换现有文件；
        - 🆑 **跳过保持现状**：不做任何修改，完全保留当前文件。
 
 4. **完成汇报**：
-   - 汇报新增了哪些缺失技能、跳过了哪些已存在技能，以及当前项目的 `AGENTS.md` 处理结果。
+   - 汇报新增了哪些缺失技能、跳过了哪些已存在技能，以及当前项目 `AGENTS.md`（包括具体保存路径）的处理结果。
 ````
 
 ---
@@ -66,10 +66,11 @@ $codexSkills = "$HOME\.codex\skills"
 New-Item -ItemType Directory -Force -Path $codexSkills
 Get-ChildItem -Directory $tempDir | Where-Object { $_.Name -notlike ".*" } | Copy-Item -Destination $codexSkills -Recurse -Force
 
-# 3. 在当前项目初始化 AGENTS.md（如果尚不存在）
-if (-not (Test-Path "AGENTS.md")) {
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md" -OutFile "AGENTS.md"
-    Write-Host "已成功在当前项目创建 AGENTS.md"
+# 3. 在当前项目初始化 .agents/AGENTS.md（如果尚不存在）
+if (-not (Test-Path ".agents\AGENTS.md") -and -not (Test-Path "AGENTS.md")) {
+    New-Item -ItemType Directory -Force -Path ".agents"
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md" -OutFile ".agents\AGENTS.md"
+    Write-Host "已成功在当前项目 .agents\AGENTS.md 创建规范文件"
 }
 
 # 4. 清理临时文件
@@ -97,10 +98,11 @@ cp -r "$TEMP_DIR"/*/ ~/.codex/skills/ 2>/dev/null || true
 mkdir -p ~/.claude/skills
 cp -r "$TEMP_DIR"/*/ ~/.claude/skills/ 2>/dev/null || true
 
-# 3. 在当前项目初始化 AGENTS.md（如果尚不存在）
-if [ ! -f "AGENTS.md" ]; then
-    curl -fsSL https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md -o AGENTS.md
-    echo "已成功在当前项目创建 AGENTS.md"
+# 3. 在当前项目初始化 .agents/AGENTS.md（如果尚不存在）
+if [ ! -f ".agents/AGENTS.md" ] && [ ! -f "AGENTS.md" ]; then
+    mkdir -p .agents
+    curl -fsSL https://raw.githubusercontent.com/jxoday/DevSkill/main/AGENTS.md -o .agents/AGENTS.md
+    echo "已成功在当前项目 .agents/AGENTS.md 创建规范文件"
 fi
 
 # 4. 清理临时文件
