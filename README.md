@@ -57,7 +57,9 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 
 ## 🚀 安装与使用指南
 
-你可以将本仓库的技能引入到你的 AI 编程工作流中：
+> 💡 **AI 一键自动安装**：你可以直接查看 [INSTALL.md](INSTALL.md)，将 Prompt 发送给你的 AI 助手（Antigravity / Codex / Claude Code），让 AI 自动检测缺失技能并下载安装到全局目录，同时自动在当前项目创建 `AGENTS.md`。
+
+---
 
 ### 方式一：作为全局技能引入（推荐）
 
