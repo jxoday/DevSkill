@@ -11,21 +11,22 @@
 ````markdown
 请帮我检查并配置 DevSkill (https://github.com/jxoday/DevSkill) 技能库与工作流规范：
 
-1. **识别当前客户端与全局技能目录**：
-   - Antigravity / Gemini CLI:
-     - Windows: `%USERPROFILE%\.gemini\config\skills\`
-     - macOS/Linux: `~/.gemini/config/skills/`
-   - Codex:
-     - Windows: `%USERPROFILE%\.codex\skills\`
-     - macOS/Linux: `~/.codex/skills/`
-   - Claude Code:
-     - macOS/Linux: `~/.claude/skills/`
+1. **仅识别当前正在运行的客户端与全局技能目录**：
+   - 先确认你当前所处的宿主环境（**仅针对当前运行的客户端进行检查与配置，切勿检查或操作其他无关客户端的目录**）：
+     - **当前是 Antigravity / Gemini CLI**：
+       - Windows: `%USERPROFILE%\.gemini\config\skills\`
+       - macOS/Linux: `~/.gemini/config/skills/`
+     - **当前是 Codex**：
+       - Windows: `%USERPROFILE%\.codex\skills\`
+       - macOS/Linux: `~/.codex/skills/`
+     - **当前是 Claude Code**：
+       - macOS/Linux: `~/.claude/skills/`
 
-2. **检查并同步缺失的全局技能**：
-   - 检查上述对应的全局技能目录下是否存在来自 DevSkill 的核心技能（如 `using-superpowers`, `android-architecture`, `android-native-dev`, `brainstorming`, `grilling`, `writing-plans`, `executing-plans`, `systematic-debugging`, `test-driven-development` 等）。
+2. **检查并同步当前客户端缺失的全局技能**：
+   - 仅检查当前客户端的全局技能目录下是否存在来自 DevSkill 的核心技能（如 `using-superpowers`, `android-architecture`, `android-native-dev`, `brainstorming`, `grilling`, `writing-plans`, `executing-plans`, `systematic-debugging`, `test-driven-development` 等）。
    - **冲突处理策略**：
      - **默认跳过（增量补齐，推荐）**：若本地已存在同名技能，**默认跳过不覆盖**，优先保护用户本地原有的个性化修改；
-     - **缺失补齐**：仅将本地缺失的技能文件夹从 https://github.com/jxoday/DevSkill 复制到全局目录；
+     - **缺失补齐**：仅将本地缺失的技能文件夹从 https://github.com/jxoday/DevSkill 复制到当前客户端的全局目录；
      - *(若用户显式要求“强制全量覆盖/更新”，才进行覆盖同步)*。
 
 3. **初始化当前项目的规范文件**：
