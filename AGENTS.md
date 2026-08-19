@@ -28,3 +28,9 @@
   - 不盲目全量加载大文件，通过 `view_file` 的 `StartLine` 和 `EndLine`（例如只读关键的 20~40 行）精准读取，将单次状态核验消耗压缩至最低 Token。
 - **核心变动链条联动核验（Critical Chain Calibration）**：
   - 针对当前任务的上下游关键文件（如被调用的基类、接口或调用方）做状态校准，确保讨论与改动始终基于**唯一真实代码事实源（Single Source of Truth）**，非相关文件不重复加载。
+
+## 6. 类结构与成员/常量声明规范（Class Member & Constant Layout）
+- **顶部集中声明与格式统一（Top-level Member Declarations）**：
+  - 类的伴生对象（`companion object`）、常量（`const val`）、静态方法、ViewModel/Presenter 属性以及成员变量/交互状态（`private var` / `private val` 等），**必须统一集中在类体顶部声明**，严禁随手散落在方法间或类体底部。
+- **强制清晰注释（Mandatory Field Documentation）**：
+  - 声明的所有成员属性、状态变量和常量，**必须附带统一规范的行内或 KDoc 文档注释**，明确说明字段用途与业务含义。
