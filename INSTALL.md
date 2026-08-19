@@ -47,7 +47,28 @@
 
 如果你想通过终端自行安装，可根据操作系统执行以下命令：
 
-### Windows (PowerShell)
+### ⚡ 极速一行安装（推荐，自动克隆并导入）
+
+- **Antigravity / Gemini CLI (Windows PowerShell)**:
+  ```powershell
+  & { $t = "$env:TEMP\DevSkill"; if(Test-Path $t){Remove-Item -Recurse -Force $t}; git clone https://github.com/jxoday/DevSkill.git $t; New-Item -ItemType Directory -Force -Path "$HOME\.gemini\config\skills"; Get-ChildItem $t -Directory | Where-Object {$_.Name -notlike ".*"} | Copy-Item -Destination "$HOME\.gemini\config\skills" -Recurse -Force; Remove-Item -Recurse -Force $t; Write-Host "✅ DevSkill 已成功安装到 Antigravity！" -ForegroundColor Green }
+  ```
+
+- **Codex (Windows PowerShell)**:
+  ```powershell
+  & { $t = "$env:TEMP\DevSkill"; if(Test-Path $t){Remove-Item -Recurse -Force $t}; git clone https://github.com/jxoday/DevSkill.git $t; New-Item -ItemType Directory -Force -Path "$HOME\.codex\skills"; Get-ChildItem $t -Directory | Where-Object {$_.Name -notlike ".*"} | Copy-Item -Destination "$HOME\.codex\skills" -Recurse -Force; Remove-Item -Recurse -Force $t; Write-Host "✅ DevSkill 已成功安装到 Codex！" -ForegroundColor Green }
+  ```
+
+- **macOS / Linux (Bash)**:
+  ```bash
+  curl -fsSL https://raw.githubusercontent.com/jxoday/DevSkill/main/INSTALL.md | bash 2>/dev/null || true
+  ```
+
+---
+
+### 📋 多步骤标准安装脚本
+
+#### Windows (PowerShell)
 
 ```powershell
 # 1. 克隆 DevSkill 仓库到临时目录
