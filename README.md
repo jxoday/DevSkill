@@ -63,31 +63,41 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 
 ### 方式一：作为全局技能引入（推荐）
 
-将对应技能文件夹复制到你的全局配置目录：
+将技能文件夹复制到对应客户端的全局配置目录：
 
 - **Antigravity / Gemini CLI**:
-  ```bash
-  # Windows
-  xcopy /E /I DevSkill\* "%USERPROFILE%\.gemini\config\skills\"
-  
-  # macOS / Linux
-  cp -r DevSkill/* ~/.gemini/config/skills/
-  ```
+  - **Windows (PowerShell)**:
+    ```powershell
+    Copy-Item -Path ".\*" -Destination "$HOME\.gemini\config\skills" -Recurse -Force
+    ```
+  - **Windows (CMD)**:
+    ```cmd
+    xcopy /E /I /Y * "%USERPROFILE%\.gemini\config\skills\"
+    ```
+  - **macOS / Linux**:
+    ```bash
+    cp -r * ~/.gemini/config/skills/
+    ```
 
 - **Codex**:
-  ```bash
-  # Windows
-  xcopy /E /I DevSkill\* "%USERPROFILE%\.codex\skills\"
-  
-  # macOS / Linux
-  cp -r DevSkill/* ~/.codex/skills/
-  ```
+  - **Windows (PowerShell)**:
+    ```powershell
+    Copy-Item -Path ".\*" -Destination "$HOME\.codex\skills" -Recurse -Force
+    ```
+  - **Windows (CMD)**:
+    ```cmd
+    xcopy /E /I /Y * "%USERPROFILE%\.codex\skills\"
+    ```
+  - **macOS / Linux**:
+    ```bash
+    cp -r * ~/.codex/skills/
+    ```
 
 - **Claude Code**:
-  ```bash
-  # macOS / Linux
-  cp -r DevSkill/* ~/.claude/skills/
-  ```
+  - **macOS / Linux**:
+    ```bash
+    cp -r * ~/.claude/skills/
+    ```
 
 ### 方式二：作为项目级技能引入
 
