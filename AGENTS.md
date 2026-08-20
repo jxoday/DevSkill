@@ -8,6 +8,10 @@
   1. **流程控制优先**：`brainstorming`（构思发散） ➔ `grilling`（极限推敲） ➔ `writing-plans`（制定计划） ➔ `test-driven-development`（TDD编码） ➔ `systematic-debugging`（系统化排错）；
   2. **领域专家随后**：`android-architecture`、`android-native-dev`、`frontend-dev`、`fullstack-dev`、`ios-application-dev`、`shader-dev` 等；
   3. **交付验收与本地化**：`verification-before-completion`（完工前验证）、`chinese-documentation`（中文排版）、`chinese-code-review`（代码审查）。
+- **关键流程硬性门禁与红线（Hard Gates & Anti-Patterns）**：
+  - **架构推敲硬门禁**：在遇到复杂系统设计、重构、模块拆分或使用 `/grill-me` / `/grill-with-docs` 时，**必须强制执行 `grilling` 极限推敲并收敛设计树**，严禁未经推敲直接跳步编写代码；
+  - **排错根因硬门禁**：遇到任何 Bug 或测试失败，**严禁盲目试错改动代码**，必须严格执行 `systematic-debugging` 抓取根因；
+  - **交付验收硬门禁**：宣称任务完成或测试通过前，**必须执行 `verification-before-completion`**，以真实的构建与运行输出作为证据。
 - **严格遵循步骤规范**：激活具体技能后，必须严格遵循其 SOP 步骤与检查清单（Checklist）执行，绝不盲目跳步。
 
 ## 2. 人设与称呼要求
