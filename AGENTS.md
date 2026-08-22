@@ -37,7 +37,14 @@
   - 在单独会话执行书面计划或无法使用子 Agent 时，使用 `executing-plans`；
   - 存在 2 个以上互不依赖且无共享状态的即时任务时，使用 `dispatching-parallel-agents`；
   - 用户提供 YAML 工作流或明确要求多个角色协作时，使用 `workflow-runner`。
-- **领域实现：** 根据任务调用 `android-architecture`、`android-native-dev`、`frontend-dev`、`fullstack-dev`、`ios-application-dev`、`shader-dev` 等领域 Skill，并优先读取其相关参考资料。
+- **领域实现：** 根据任务的主要交付目标调用对应领域 Skill；同一任务跨越多个领域时可以组合调用，但应明确一个主 Skill，其他 Skill 仅补充其负责的边界：
+  - `android-architecture`：用于 Android 模块划分、分层架构、依赖方向、Repository/Data 层、离线优先、Room、Hilt、UDF、Gradle Convention Plugin 等架构工作；普通页面布局、组件样式和交互实现优先使用 `android-native-dev`。
+  - `android-native-dev`：用于 Android 原生 UI、Jetpack Compose、Material Design、协程与生命周期、无障碍、Flavor/Variant、平台能力及构建问题；涉及模块拆分、数据层或整体架构决策时联合调用 `android-architecture`。
+  - `frontend-dev`：用于纯前端页面、组件、交互、响应式布局、视觉设计、动效、营销页面和浏览器端体验；涉及后端接口、认证、数据库或实时通信时联合调用 `fullstack-dev`。
+  - `fullstack-dev`：用于后端服务、REST API、前后端集成、认证授权、配置管理、文件上传、缓存、任务队列及 SSE/WebSocket；纯 UI、CSS 或视觉动效任务不单独调用。
+  - `ios-application-dev`：用于 Swift、SwiftUI、UIKit、SnapKit、Apple HIG、iOS 布局、导航、生命周期、无障碍和 Apple 平台能力实现。
+  - `shader-dev`：用于 GLSL、ShaderToy、WebGL Shader、SDF、光照、粒子、程序化生成和后处理等实时图形任务；WebGL 页面集成可联合调用 `frontend-dev`，Metal/iOS 图形集成应联合调用 `ios-application-dev`。
+  - 调用领域 Skill 后，先根据其任务路由按需读取对应 `references/`，不得无目的加载全部参考资料；若任务不符合任何领域边界，则不强行调用领域 Skill。
 - **本地化：** 中文文档、中文 Code Review 和国内 Git 平台任务按需调用 `chinese-documentation`、`chinese-code-review`、`chinese-git-workflow`。
 
 `grilling` 和 `systematic-debugging` 都是条件分支，不是每次开发都要依次经过的固定阶段。
@@ -166,3 +173,82 @@
 ```
 
 Windows 将 `./gradlew` 替换为 `gradlew.bat`。无 Flavor 的项目应使用实际存在的无 Flavor Task，不保留空占位段。
+
+## 4. 跨语言代码编写与导包/模块引用规范
+- **强制顶部标准导入（Top-level Imports）**：
+  - 在所有涉及模块化与包管理的语言中（包括但不限于 **Kotlin/Java**、**TypeScript/JavaScript**、**Python**、**Swift**、**Rust**、**Go**），所有引用的外部类、接口、函数、模块或静态工具，**必须统一在文件顶部显式声明标准导入**（如 `import` / `require` / `use`）。
+- **严禁长路径内联调用（No Inline Qualified Names）**：
+  - 严禁在方法体或业务逻辑中直接书写全限定长路径（例如：`kotlin.text.StringsKt.xxx`、`cn.hutool.core.util.xxx`、`java.util.Collections.xxx`、`lodash.xxx`、`os.path.xxx` 等未在顶部声明的深层调用）。
+- **编写前主动依赖检查与补齐（Pre-flight Dependency Check）**：
+  - 在新增类成员、引入新方法或使用第三方/标准库工具前，**必须先检查并一次性在头部补齐所有缺失的依赖声明**，从源头杜绝因漏导包或未解析符号（Unresolved Reference）导致的编译/运行失败。
+
+## 5. 代码事实源与阅读校准规范（Ground Truth Verification）
+- **严禁依赖上下文旧记忆脑补（Zero-Trust Memory）**：
+  - 严禁凭历史对话或记忆推断具体代码实现、方法签名或类成员；在分析、引用或修改任何代码前，必须拉取磁盘文件的最新真实状态。
+- **Grep 先行定位（Fast Indexing）**：
+  - 针对大型文件或多模块项目，先用轻量级的 `grep_search` 快速定位目标代码行号。
+- **区间精准读取（Slice Viewing）**：
+  - 不盲目全量加载大文件，通过 `view_file` 的 `StartLine` 和 `EndLine`（例如只读关键的 20~40 行）精准读取，将单次状态核验消耗压缩至最低 Token。
+- **核心变动链条联动核验（Critical Chain Calibration）**：
+  - 针对当前任务的上下游关键文件（如被调用的基类、接口或调用方）做状态校准，确保讨论与改动始终基于**唯一真实代码事实源（Single Source of Truth）**，非相关文件不重复加载。
+
+
+## 9. 前后端构建与验证规范
+
+本节适用于 Spring Boot / Kotlin / Java 后端与 Vue / Vite / Node 前端项目；非此类项目不得机械执行。
+
+### 9.1 前后端分流与快速构建
+
+- **前端构建（Vue / React / Vite / Webpack / Node）：**
+  - **工作目录定位：** 动态探测包含 `package.json` 的前端工程实际目录（如 `<frontend-module>/`、`ui/`、`web/`、`admin/` 或独立前端根目录），禁止硬编码猜测单一固定目录；
+  - **环境入口探测：** 动态探测环境中的 Node/NPM/PNPM/Yarn 执行路径（优先检查全局 PATH，若项目通过 Maven/Gradle 插件本地化管理 Node 则探测对应下载路径如 `target/node`、`.node/`）；
+  - **快速构建与静态资源同步：** 改动纯前端页面后，**仅进入实际前端目录执行构建**（如 `npm run build` / `pnpm build`），若产物由后端服务静态托管，按需同步至后端静态资源目录（如 `src/main/resources/static/` 或 `target/classes/static/`），严禁盲目触发后端全量编译：
+    ```bash
+    cd <frontend-dir> && npm run build
+    ```
+- **后端构建（Spring Boot / Kotlin / Java / Maven / Gradle）：**
+  - **工作目录定位：** 动态定位包含 `pom.xml` 或 `build.gradle(.kts)` 的服务端根目录或具体业务子模块；
+  - **构建入口探测：** 优先检查项目提供的 Wrapper（如 `./mvnw`、`./gradlew`），其次使用全局构建命令或探测到的有效绝对路径；
+  - **配置环境（Profile）保护：** 明确当前改动相关的配置文件（如 `application-dev.yml`、`application-pro.yml`），禁止在测试或验证过程中硬编码或误改生产数据源与敏感密钥。
+
+### 9.2 编译输出与日志静默规范（关键纪律）
+
+- **严禁直接输出冗长编译日志：**
+  - **正常构建成功时：** 严禁在回答中输出任何 `npm run build`、`mvn compile`、Vite 或 Rollup 的原始终端输出日志，仅需在回答中优雅汇报「构建完成并已同步生效」；
+  - **严禁将异步后台编译通知推给用户：** 运行命令时必须指定充足的 `WaitMsBeforeAsync`（如 `10000ms`）确保同步执行完毕，坚决杜绝因超时导致系统自动打印 `<SYSTEM_MESSAGE>` 编译日志流打扰用户。
+- **编译失败或必须展示日志时强制折叠收起：**
+  - 若编译发生异常，优先在正文中提炼核心报错原因与精确文件行号；
+  - 如需提供原始详细日志作为证据，**必须强制使用折叠标签 `<details><summary>` 收起**，绝不污染对话版面：
+    ````markdown
+    <details>
+    <summary>🔍 编译详细日志 (点击展开)</summary>
+
+    ```text
+    ... 精简日志内容 ...
+    ```
+    </details>
+    ````
+
+### 9.3 跨平台命令前缀
+
+- **Maven 项目：**
+  - macOS / Linux：提供 Wrapper 时使用 `./mvnw`，否则使用 `mvn` 或探测到的有效 Maven 绝对路径；
+  - Windows：提供 Wrapper 时使用 `mvnw.cmd`，否则使用 `mvn`。
+- **Gradle 项目：**
+  - macOS / Linux：使用 `./gradlew`；
+  - Windows：使用 `gradlew.bat`。
+
+### 9.4 分层验证策略
+
+- **快速增量编译：** 代码修改后优先执行对应模块的编译命令，快速定位导包错误、类型不匹配、注解缺失或依赖未解析等问题：
+  - Maven: `mvn compile` 或 `mvn test-compile`
+  - Gradle: `./gradlew compileJava compileKotlin`
+- **单元与切片测试验证：** 遵循 TDD 与最小验证原则，定向运行受影响的 Service、Mapper 或 Controller 测试用例：
+  - Maven 单测: `mvn test -Dtest=<TestClassName>#<testMethodName>`
+  - Gradle 单测: `./gradlew test --tests "<TestClassName>.<testMethodName>"`
+- **打包与完整集成验证：** 交付前视改动影响范围执行打包，确认 jar/war 构建成功且依赖打包完整：
+  - Maven: `mvn package -DskipTests`（或连同单测一起执行 `mvn package`）
+  - Gradle: `./gradlew build -x test`
+- **运行中服务与端口安全：**
+  - 若检测到应用端口（如 `8080`, `8090`）已被开发进程（如 IDE 本地启动实例）监听，**严禁盲目执行 `kill -9`**；
+  - 优先提示用户在 IDE 控制台中进行 Rerun / 热重载，或在获得用户明确指令后再执行重启。
