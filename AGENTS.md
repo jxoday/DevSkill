@@ -174,25 +174,6 @@
 
 Windows 将 `./gradlew` 替换为 `gradlew.bat`。无 Flavor 的项目应使用实际存在的无 Flavor Task，不保留空占位段。
 
-## 4. 跨语言代码编写与导包/模块引用规范
-- **强制顶部标准导入（Top-level Imports）**：
-  - 在所有涉及模块化与包管理的语言中（包括但不限于 **Kotlin/Java**、**TypeScript/JavaScript**、**Python**、**Swift**、**Rust**、**Go**），所有引用的外部类、接口、函数、模块或静态工具，**必须统一在文件顶部显式声明标准导入**（如 `import` / `require` / `use`）。
-- **严禁长路径内联调用（No Inline Qualified Names）**：
-  - 严禁在方法体或业务逻辑中直接书写全限定长路径（例如：`kotlin.text.StringsKt.xxx`、`cn.hutool.core.util.xxx`、`java.util.Collections.xxx`、`lodash.xxx`、`os.path.xxx` 等未在顶部声明的深层调用）。
-- **编写前主动依赖检查与补齐（Pre-flight Dependency Check）**：
-  - 在新增类成员、引入新方法或使用第三方/标准库工具前，**必须先检查并一次性在头部补齐所有缺失的依赖声明**，从源头杜绝因漏导包或未解析符号（Unresolved Reference）导致的编译/运行失败。
-
-## 5. 代码事实源与阅读校准规范（Ground Truth Verification）
-- **严禁依赖上下文旧记忆脑补（Zero-Trust Memory）**：
-  - 严禁凭历史对话或记忆推断具体代码实现、方法签名或类成员；在分析、引用或修改任何代码前，必须拉取磁盘文件的最新真实状态。
-- **Grep 先行定位（Fast Indexing）**：
-  - 针对大型文件或多模块项目，先用轻量级的 `grep_search` 快速定位目标代码行号。
-- **区间精准读取（Slice Viewing）**：
-  - 不盲目全量加载大文件，通过 `view_file` 的 `StartLine` 和 `EndLine`（例如只读关键的 20~40 行）精准读取，将单次状态核验消耗压缩至最低 Token。
-- **核心变动链条联动核验（Critical Chain Calibration）**：
-  - 针对当前任务的上下游关键文件（如被调用的基类、接口或调用方）做状态校准，确保讨论与改动始终基于**唯一真实代码事实源（Single Source of Truth）**，非相关文件不重复加载。
-
-
 ## 9. 前后端构建与验证规范
 
 本节适用于 Spring Boot / Kotlin / Java 后端与 Vue / Vite / Node 前端项目；非此类项目不得机械执行。
