@@ -233,3 +233,61 @@ Windows 将 `./gradlew` 替换为 `gradlew.bat`。无 Flavor 的项目应使用�
 - **运行中服务与端口安全：**
   - 若检测到应用端口（如 `8080`, `8090`）已被开发进程（如 IDE 本地启动实例）监听，**严禁盲目执行 `kill -9`**；
   - 优先提示用户在 IDE 控制台中进行 Rerun / 热重载，或在获得用户明确指令后再执行重启。
+
+## 10. iOS 构建与验证规范
+
+本节仅适用于 iOS / Xcode / Swift 项目；非此类项目不得机械执行。
+
+### 10.1 构建环境与项目结构动态探测
+
+执行构建前必须检查：
+
+- **工程入口：** 探测 `.xcworkspace`、`.xcodeproj` 与 `Package.swift`；项目实际通过 Workspace 管理依赖或多工程时使用 `-workspace`，否则使用 `-project`，纯 Swift Package 使用 SwiftPM 命令。
+- **开发工具：** 使用 `xcode-select -p` 与 `xcodebuild -version` 核对当前激活的 Xcode；仅在用户、项目或 CI 明确指定其他 Xcode 时设置 `DEVELOPER_DIR`，不得硬编码安装路径。
+- **构建配置：** 通过 `xcodebuild -list` 核对共享 Scheme、Target 与 Configuration，并读取项目 README、CI、脚本或 Makefile 中已有的标准命令。
+- **目标环境：** 区分模拟器与真机 SDK；通过 `xcodebuild -showdestinations` 或 `xcrun simctl list devices available` 探测可用 Destination，不得猜测设备型号、系统版本或 UDID。
+- **改动范围：** 确认受影响的 Target、测试 Bundle、最低系统版本、依赖管理方式与签名要求，选择能够证明当前改动的最小验证集合。
+
+不得在未探测工程入口、Scheme、Configuration 与 Destination 时拼接命令。快速验证默认使用模拟器；只有任务确实涉及真机能力、签名、归档或发布时，才使用对应真机流程并遵循项目现有签名配置。
+
+### 10.2 分层验证策略与常用命令
+
+- **快速构建：** 优先构建受影响 Scheme 的 Debug 模拟器版本，验证 Swift/Objective-C 编译、宏、资源和依赖解析。以下分别为 Workspace 与 Project 示例，必须替换为探测到的实际值：
+  ```bash
+  xcodebuild -workspace <Workspace>.xcworkspace -scheme <Scheme> -configuration Debug -destination "generic/platform=iOS Simulator" CODE_SIGNING_ALLOWED=NO build
+  xcodebuild -project <Project>.xcodeproj -scheme <Scheme> -configuration Debug -destination "generic/platform=iOS Simulator" CODE_SIGNING_ALLOWED=NO build
+  ```
+- **Swift Package：** 纯 Swift Package 根据改动运行相应构建和测试：
+  ```bash
+  swift build
+  swift test
+  ```
+- **定向测试：** 先选择实际存在的模拟器 Destination；优先使用 `-only-testing:<TestBundle>/<TestClass>` 运行受影响测试，再按风险扩展到相关测试 Bundle 或完整 Scheme：
+  ```bash
+  xcodebuild test -project <Project>.xcodeproj -scheme <Scheme> -configuration Debug -destination "platform=iOS Simulator,id=<Simulator-UDID>" -only-testing:<TestBundle>/<TestClass> -resultBundlePath <ResultPath>.xcresult
+  ```
+- **专项验证：** UI、导航、布局或无障碍改动按风险运行 XCUITest、快照测试或人工检查，并覆盖相关屏幕尺寸、Dynamic Type、VoiceOver、Dark Mode 与 Reduce Motion；性能、内存或并发问题使用项目已有测试和 Instruments 证据。
+- **静态与完整验证：** 仅在项目已配置时运行 SwiftLint、SwiftFormat、静态分析或其他 CI 检查；发布相关任务再执行 Release 构建、Archive、导出与真机验证，不将其机械用于普通改动。
+- **Clean 使用边界：** `clean`、删除 Derived Data 或重新解析依赖不是常规交付步骤；仅在已有证据指向缓存、索引或依赖状态异常时使用，并在操作前确认影响范围。
+- **失败路由：** 构建或测试失败时保留首个有效错误及原始上下文，转入 `systematic-debugging` 定位根因；不得通过反复 Clean、更新依赖或更换模拟器掩盖问题。
+
+### 10.3 编译输出与日志静默规范
+
+- **完成证据：** 以命令退出码、失败数量和测试结果为主要依据，同时核对 `** BUILD SUCCEEDED **` 或 `** TEST SUCCEEDED **`；需要进一步审计时保留并解析 `.xcresult`，不得仅凭成功文本下结论。
+- **输出控制：** 使用当前宿主支持的同步等待、轮询或会话续读机制获取最终退出状态；不得在通用规范中依赖特定客户端的工具名称或参数。
+- **成功汇报：** 正常构建成功时不在正文粘贴完整 `xcodebuild` 日志，只汇报实际命令范围、Scheme、Destination 与结果证据。
+- **失败汇报：** 优先提取首个根因错误、文件行号、失败测试及相关 Swift 编译器诊断；确需附带长日志时使用 `<details><summary>` 折叠，并避免泄露签名、账号、路径中的敏感信息。
+
+## 11. 文档归档与管理规范 (Documentation Management Mandate)
+
+- **文档归档目录：** 开发过程中生成的所有文档（如需求分析、架构设计、实现计划、任务清单、阶段验收总结等），必须统一存放在 `docs/` 目录下（或其子目录中），严禁散落在项目根目录。
+- **文件命名规范：**
+  - 文档名称应简洁明了，具有描述性（例如：`2026-08-25_UI_改色与排版优化_需求文档.md`）。
+  - 文件名应包含日期（`YYYY-MM-DD` 格式）、核心主题和文档类型。
+  - 避免使用不必要的空格或特殊字符，使用下划线 `_` 或中划线 `-` 分隔单词。
+- **分类子目录：** 可以在 `docs/` 目录下创建子目录进行分类，例如：
+  - `docs/requirements/` - 需求文档
+  - `docs/design/` - 架构与设计决策
+  - `docs/tasks/` - 任务分解与清单
+  - `docs/progress/` - 阶段性进度与验收
+  - `docs/android_reference/` - Android 端参考资料（如有）
