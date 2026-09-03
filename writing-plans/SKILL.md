@@ -20,7 +20,7 @@ metadata:
 
 **上下文：** 此技能应在专用 worktree 中运行（由 brainstorming 技能创建）。
 
-**计划保存位置：** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+**计划保存位置：** `docs/.generated/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
 - （用户对计划位置的偏好优先于此默认值）
 
 ## 范围检查
@@ -138,7 +138,7 @@ git commit -m "feat: add specific feature"
 
 保存计划后，说明执行默认值：
 
-**"计划已完成并保存到 `docs/superpowers/plans/<filename>.md`。**
+**"计划已完成并保存到 `docs/.generated/superpowers/plans/<filename>.md`。**
 
 **默认：当前会话内联执行** - 不再为普通任务重复询问执行方式。
 

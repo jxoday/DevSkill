@@ -31,7 +31,7 @@ metadata:
 3. **提出澄清问题** — 每次一个，了解目的/约束/成功标准
 4. **提出 2-3 种方案** — 附带权衡分析和你的推荐
 5. **展示设计** — 按复杂度分节展示，每节展示后获得用户批准
-6. **编写设计文档** — 保存到 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` 并 commit
+6. **编写设计文档** — 保存到 `docs/.generated/superpowers/specs/YYYY-MM-DD-<topic>-design.md`，未经用户明确授权不得 commit
 7. **规格自检** — 快速内联检查占位符、矛盾、模糊性、范围（详见下方）
 8. **用户审查书面规格** — 在继续之前请用户审查规格文件
 9. **过渡到实现** — 调用 writing-plans 技能创建实现计划
@@ -114,10 +114,10 @@ digraph brainstorming {
 
 **文档：**
 
-- 将验证通过的设计（规格说明）写入 `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
+- 将验证通过的设计（规格说明）写入 `docs/.generated/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
   - （用户对规格位置的偏好优先于此默认值）
 - 如果可用，使用 elements-of-style:writing-clearly-and-concisely 技能
-- 将设计文档 commit 到 git
+- 未经用户明确要求，不得将过程设计文档 commit 到 Git；用户要求纳入 Git 时，先将其整理并移动到 `docs/` 的正式分类目录
 
 **规格自检：**
 编写规格文档后，以全新的视角审视它：
@@ -132,7 +132,7 @@ digraph brainstorming {
 **用户审查关卡：**
 规格自检完成后，请用户在继续之前审查书面规格：
 
-> "规格已编写并 commit 到 `<path>`。请审查一下，如果在我们开始编写实现计划之前你想做任何修改，请告诉我。"
+> "规格已编写到 `<path>`。请审查一下，如果在我们开始编写实现计划之前你想做任何修改，请告诉我。"
 
 等待用户回复。如果他们要求修改，做出修改并重新运行规格自检。只有在用户批准后才继续。
 
