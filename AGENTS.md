@@ -26,17 +26,17 @@
 - 只要某项 Skill 存在至少 1% 的适用可能，就先加载并检查，不得以任务简单为由跳过。
 - 激活 Skill 后，严格遵循其 SOP、硬门禁和检查清单，并按需读取其直接关联的 `references/`、`scripts/`、`templates/` 与 `assets/`。
 - 流程型 Skill 决定工作方法，领域型 Skill 提供实现规范；同一任务可以按职责组合使用。
+- 新增功能、Bug 修复、重构或行为变更开始前，必须确定当前请求的开发模式：`/grill-me` 轻量流程或 `superpowers` 完整流程。
+- 用户已在当前请求中明确指定开发模式时直接采用，不重复确认；用户未指定时必须暂停实现并询问用户选择，不得代替用户决定。
+- 开发模式只对当前请求有效。纯解释、只读分析、代码阅读、状态查询和报告类请求不触发模式选择。
+- `/grill-me` 模式下，`brainstorming`、`writing-plans`、`executing-plans`、`test-driven-development`、`requesting-code-review` 和 `receiving-code-review` 不因“至少 1% 适用”规则自动激活；只有用户明确要求时才调用。领域 Skill、`systematic-debugging` 和交付验证仍按轻量流程的实际需要使用。
 
 ### 3.2 条件路由
 
-- **创造性实现或行为变更：** 先使用 `brainstorming` 探索意图、方案和成功标准。设计未获用户批准前，不得开始实现。
-- **复杂设计决策：** 遇到复杂系统设计、重构、模块拆分、架构决策，或用户使用 `/grill-me`、`/grill-with-docs` 等压力测试指令时，调用 `grilling` 收敛设计树。
-- **实施计划：** 获批设计通过 `writing-plans` 转化为包含精确文件、操作步骤和验证命令的书面计划。
-- **计划执行：**
-  - 当前会话已有书面计划、任务基本独立且平台支持子 Agent 时，使用 `subagent-driven-development`；
-  - 在单独会话执行书面计划或无法使用子 Agent 时，使用 `executing-plans`；
-  - 存在 2 个以上互不依赖且无共享状态的即时任务时，使用 `dispatching-parallel-agents`；
-  - 用户提供 YAML 工作流或明确要求多个角色协作时，使用 `workflow-runner`。
+- **`/grill-me` 轻量流程：** 使用 `grilling` 对需求、关键决策、风险和边界进行与任务复杂度匹配的压力测试；决策收敛后直接实施，不强制调用 `brainstorming`、`writing-plans`、`executing-plans`、`test-driven-development`、`requesting-code-review` 或 `receiving-code-review`。
+- **`superpowers` 完整流程：** 创造性实现或行为变更先使用 `brainstorming` 探索意图、方案和成功标准，设计获批后使用 `writing-plans` 制定实施计划；普通任务直接在当前会话内联执行计划，需要分批检查点时使用 `executing-plans`，用户提供 YAML 工作流或明确要求多角色协作时使用 `workflow-runner`。
+- **执行方式默认值：** 开发模式确定后，普通任务默认在当前会话内联执行，不再重复询问执行方式；用户已明确指定执行方式时直接采用。
+- **执行方式特殊情况：** 用户未指定执行方式时，仅当需要单独会话或隔离 worktree、需要分批检查点、任务需要多角色工作流，或当前会话受上下文、环境或权限限制时，暂停并让用户选择当前会话内联、`executing-plans` 或其他可用方式。用户提供 YAML 工作流或明确要求多角色协作时，视为已指定 `workflow-runner`，不重复确认。
 - **领域实现：** 根据任务的主要交付目标调用对应领域 Skill；同一任务跨越多个领域时可以组合调用，但应明确一个主 Skill，其他 Skill 仅补充其负责的边界：
   - `android-architecture`：用于 Android 模块划分、分层架构、依赖方向、Repository/Data 层、离线优先、Room、Hilt、UDF、Gradle Convention Plugin 等架构工作；普通页面布局、组件样式和交互实现优先使用 `android-native-dev`。
   - `android-native-dev`：用于 Android 原生 UI、Jetpack Compose、Material Design、协程与生命周期、无障碍、Flavor/Variant、平台能力及构建问题；涉及模块拆分、数据层或整体架构决策时联合调用 `android-architecture`。
@@ -45,22 +45,41 @@
   - `ios-application-dev`：用于 Swift、SwiftUI、UIKit、SnapKit、Apple HIG、iOS 布局、导航、生命周期、无障碍和 Apple 平台能力实现。
   - `shader-dev`：用于 GLSL、ShaderToy、WebGL Shader、SDF、光照、粒子、程序化生成和后处理等实时图形任务；WebGL 页面集成可联合调用 `frontend-dev`，Metal/iOS 图形集成应联合调用 `ios-application-dev`。
   - 调用领域 Skill 后，先根据其任务路由按需读取对应 `references/`，不得无目的加载全部参考资料；若任务不符合任何领域边界，则不强行调用领域 Skill。
+- **设计工程与高级动效：** 涉及界面质感打磨、动效构建、手势交互与组件库选型时按职责调用：
+  - `emil-design-eng`：用于 Web 界面精细化打磨、组件交互手感、缓动曲线（Easing）与视觉品味；提升 UI 质感时作为主 Skill 或与 `frontend-dev` 联合调用。
+  - `animate`：用于从零构建现代 Web 动画（CSS / Motion / 原生 API），精准匹配曲线、时长、阻尼与硬件加速属性。
+  - `animate-expo`：用于 React Native 与 Expo 原生手势动效、BottomSheet 抽屉联动、触觉反馈（Haptics）与原生 UI 线程渲染（Reanimated）。
+  - `review-animations` / `improve-animations`：用于动效代码严格审查，或对全项目既有动画进行系统化审计并生成自包含重构计划。
+  - `find-animation-opportunities`：用于界面微动效机会点智能发掘，同时识别过度设计并确立克制红线。
+  - `animation-vocabulary`：用于动效专业术语语义对齐与精准交互诉求表达。
+  - `apple-design`：用于 Web 端实现 Apple 级流体动力学交互（Fluid Motion）、连续曲率、物理动量与 WWDC 设计哲学。
+  - `write-swift`：用于现代 Swift 编程、值类型语义、Swift 6 并发安全与 Swift Testing；涉及 iOS / macOS 业务逻辑开发时可与 `ios-application-dev` 联合调用。
+  - `pick-ui-library`：用于现代前端成熟组件库选型，杜绝盲目徒手造劣质轮子或引入废弃依赖。
+  - `prototype`：用于快速构建多方案设计比稿原型（Variants）并注入交互式方案切换器。
+  - `ask-sonner`：用于 Sonner 消息通知组件的快速集成、样式深度定制与避坑。
+- **反过度工程与极简实现：** 当面临方案选型、精简样板代码、用户要求“极简/防过度设计/YAGNI”或触发对应指令时：
+  - `ponytail`：作为实现阶段的收敛准则，严格遵循 7 级决策阶梯（YAGNI ➔ 现有复用 ➔ 标准库 ➔ 平台原生 ➔ 一行解决 ➔ 最少实现），绝不编写未经要求的抽象、单实现接口或虚构功能；
+  - `ponytail-review`：对 PR 或代码 Diff 进行专向过度工程走查，为冗余代码精确标注 `delete:`、`stdlib:`、`native:`、`yagni:`、`shrink:`；
+  - `ponytail-audit`：对整个代码仓库执行复杂度审计，输出按清理价值排序的瘦身清单；
+  - `ponytail-debt`：统一抓取全项目中所有标记为 `ponytail:` 的临时折中方案，防止技术债务失控遗忘；
+  - `ponytail-gain` / `ponytail-help`：用于量化展示代码精简收益或查阅极简工作流指令。
 - **本地化：** 中文文档、中文 Code Review 和国内 Git 平台任务按需调用 `chinese-documentation`、`chinese-code-review`、`chinese-git-workflow`。
 
-`grilling` 和 `systematic-debugging` 都是条件分支，不是每次开发都要依次经过的固定阶段。
+`grilling` 是 `/grill-me` 轻量流程的核心，也可在 `superpowers` 完整流程遇到复杂系统设计、重构、模块拆分或架构决策时按需使用。`systematic-debugging` 仅在出现 Bug、测试失败、构建失败、性能问题或异常行为时触发。
 
 ### 3.3 质量硬门禁
 
-- **设计批准门禁：** 创造性实现必须先完成 `brainstorming`，并获得用户对设计或规格的明确批准。
-- **TDD 门禁：** 新功能、Bug 修复、重构和行为变更默认使用 `test-driven-development`，先验证测试正确失败，再编写最少实现。一次性原型、生成代码或配置文件等技能声明的例外，必须先获得用户许可。
-- **根因调查门禁：** 遇到 Bug、测试失败、构建失败、性能问题或异常行为，必须先使用 `systematic-debugging` 定位根因，不得盲目试错。
-- **代码审查门禁：** 完成重要功能或准备合并前使用 `requesting-code-review`；收到反馈后使用 `receiving-code-review` 验证其技术正确性，再逐项实施。审查后只要代码发生变化，旧验证证据即失效，必须重新测试和复审。
-- **交付验证门禁：** 宣称完成、修复、测试通过或准备提交前，必须使用 `verification-before-completion` 运行能够直接证明结论的完整命令，并阅读退出码与完整输出。
+- **模式选择门禁：** 需要修改代码或行为的请求，在用户指定或选择开发模式前不得开始实现。
+- **完整流程门禁：** 设计批准、TDD 和代码审查门禁仅在 `superpowers` 完整流程中强制执行；`/grill-me` 轻量流程明确豁免这些强制链路。
+- **根因调查门禁：** 两种模式下，遇到 Bug、测试失败、构建失败、性能问题或异常行为，都必须使用 `systematic-debugging` 定位根因，不得盲目试错。
+- **交付验证门禁：** 两种模式交付前都必须获取新鲜验证证据；`/grill-me` 执行与改动风险和影响范围匹配的最小必要验证，`superpowers` 使用 `verification-before-completion` 执行完整验证。
+- **共同安全底线：** 两种模式均不得降低授权边界、工作区保护、破坏性操作确认和代码事实源校准要求。
 
-推荐交付顺序：
+两种模式的推荐交付顺序：
 
 ```text
-实现与局部测试 → Code Review → 验证反馈 → 修复与复审 → 完整验证 → 交付
+/grill-me：压力测试与决策收敛 → 直接实施 → 异常时系统化调试 → 最小必要验证 → 交付
+superpowers：设计批准 → 实施计划 → TDD 实现与局部测试 → Code Review → 反馈验证与复审 → 完整验证 → 交付
 ```
 
 ## 4. 授权、暂停与工作区保护
@@ -76,7 +95,7 @@
 
 - 关键需求存在会显著改变最终结果的歧义；
 - 计划依赖缺失、环境不可用或验证反复失败；
-- TDD 例外或破坏性操作尚未获得授权；
+- `superpowers` 完整流程中的 TDD 例外尚未获得授权，或任何模式下的破坏性操作尚未获得授权；选择 `/grill-me` 已构成对该模式免除强制 TDD 的明确授权；
 - 连续审查后仍存在影响正确性、安全性或交付的承重问题；
 - 当前环境无法提供足以支撑完成断言的验证证据。
 

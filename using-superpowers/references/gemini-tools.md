@@ -31,7 +31,7 @@ Skills 说的是动作（"分派一个子智能体"、"建一条待办"、"读�
 
 Gemini CLI 通过 `invoke_agent` 工具分派子智能体，该工具接收 `agent_name` 和 `prompt` 两个参数。同一个分派动作也有聊天语法快捷方式：输入 `@generalist <prompt>` 等价于以 `agent_name: "generalist"` 调用 `invoke_agent`。内置的 agent 名包括 `generalist`、`cli_help`、`codebase_investigator`，以及（启用浏览器工具后的）`browser_agent`。
 
-Skills 用 `Subagent (general-purpose):` 来分派，并且要么引用一个提示词模板文件（例如 `superpowers:subagent-driven-development` 的 `./implementer-prompt.md`），要么直接给出内联提示词。在 Gemini CLI 上：
+用户明确要求多 Agent 协作时，Skills 可用 `Subagent (general-purpose):` 分派并提供内联提示词。在 Gemini CLI 上：
 
 | Skill 里的分派形式 | Gemini CLI 等价做法 |
 |------------------|-------------------|

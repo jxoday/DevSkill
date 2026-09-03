@@ -23,7 +23,7 @@
        - macOS/Linux: `~/.claude/skills/`
 
 2. **检查并同步当前客户端的全局技能**：
-   - 仅检查当前客户端的全局技能目录下是否存在来自 DevSkill 的核心技能（如 `using-superpowers`, `android-architecture`, `android-native-dev`, `brainstorming`, `grilling`, `writing-plans`, `executing-plans`, `systematic-debugging`, `test-driven-development` 等）。
+   - 仅检查当前客户端的全局技能目录下是否存在来自 DevSkill 的核心技能（如 `using-superpowers`, `android-architecture`, `android-native-dev`, `ponytail`, `emil-design-eng`, `animate`, `brainstorming`, `grilling`, `writing-plans`, `executing-plans`, `systematic-debugging`, `test-driven-development` 等）。
    - **智能差异检测与决策策略**：
      - **纯缺失技能**：本地完全不存在时，**自动静默补齐下载**（直接从 DevSkill 复制到全局目录）；
      - **已存在同名技能（比对文件大小与内容）**：
@@ -65,7 +65,7 @@
 
 - **macOS / Linux (Bash)**:
   ```bash
-  curl -fsSL https://raw.githubusercontent.com/jxoday/DevSkill/main/INSTALL.md | bash 2>/dev/null || true
+  bash -c 't=$(mktemp -d); git clone https://github.com/jxoday/DevSkill.git "$t" && mkdir -p ~/.gemini/config/skills && cp -r "$t"/*/ ~/.gemini/config/skills/ && rm -rf "$t" && echo "✅ DevSkill 已成功安装到 Antigravity / Gemini CLI！"'
   ```
 
 ---

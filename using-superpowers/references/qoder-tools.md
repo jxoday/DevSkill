@@ -30,7 +30,7 @@ Skills 使用 Claude Code 的工具名称。Qoder（阿里 AI IDE）大部分工
 
 ### IDE 与 CLI 的差异
 
-[#119](https://github.com/jnMetaCode/superpowers-zh/issues/119) 报告：在 **Qoder IDE** 里跑 `subagent-driven-development` 时，Qoder 说它只提供 `CodeReview` subagent、**没有** `general-purpose`，于是自行降级为「控制者直接实现 + CodeReview agent 做审查」。
+[#119](https://github.com/jnMetaCode/superpowers-zh/issues/119) 报告：Qoder 只提供 `CodeReview` subagent、**没有** `general-purpose`。本仓库默认由控制者在当前会话内联执行；只有用户明确要求且平台能力匹配时才调用可用 Agent。
 
 官方 subagent 文档只覆盖 CLI，没有说这套内置集合同样适用于 IDE。**所以上表在 Qoder IDE 上不保证成立。** 如果你在 IDE 里遇到「找不到 general-purpose」，那是预期内的差异，不是 superpowers-zh 装错了 —— Qoder 的自动降级本身是合理适配。
 

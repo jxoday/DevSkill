@@ -58,7 +58,7 @@ metadata:
 ```markdown
 # [功能名称] 实现计划
 
-> **面向 AI 代理的工作者：** 必需子技能：使用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 逐任务实现此计划。步骤使用复选框（`- [ ]`）语法来跟踪进度。
+> **面向 AI 代理的工作者：** 默认在当前会话内联执行此计划；只有用户明确选择分批检查点或单独会话执行时才使用 superpowers:executing-plans。步骤使用复选框（`- [ ]`）语法来跟踪进度。
 
 **目标：** [一句话描述要构建什么]
 
@@ -136,20 +136,10 @@ git commit -m "feat: add specific feature"
 
 ## 执行交接
 
-保存计划后，提供执行选项：
+保存计划后，说明执行默认值：
 
-**"计划已完成并保存到 `docs/superpowers/plans/<filename>.md`。两种执行方式：**
+**"计划已完成并保存到 `docs/superpowers/plans/<filename>.md`。**
 
-**1. 子代理驱动（推荐）** - 每个任务调度一个新的子代理，任务间进行审查，快速迭代
+**默认：当前会话内联执行** - 不再为普通任务重复询问执行方式。
 
-**2. 内联执行** - 在当前会话中使用 executing-plans 执行任务，批量执行并设有检查点
-
-**选哪种方式？"**
-
-**如果选择子代理驱动：**
-- **必需子技能：** 使用 superpowers:subagent-driven-development
-- 每个任务一个新子代理 + 两阶段审查
-
-**如果选择内联执行：**
-- **必需子技能：** 使用 superpowers:executing-plans
-- 批量执行并设有检查点供审查
+只有任务需要分批检查点、单独会话、隔离 worktree、多角色工作流，或当前会话受上下文、环境或权限限制时，才让用户选择其他可用执行方式。用户明确指定执行方式时直接采用，不重复确认。

@@ -6,11 +6,12 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 
 ## ✨ 核心特性
 
-- 🧠 **工程方法论驱动**：内置 TDD（测试驱动开发）、系统化排错、头脑风暴需求探索、极限推敲（Grilling）与子智能体驱动开发（SDD）等高质量研发工作流。
-- 🛠️ **多领域专家技能**：覆盖 Android 原生开发（MD3/Vitals）、iOS 应用开发（SwiftUI/SnapKit/HIG）、现代旗舰前端（动效/多媒体生成/字体库）、全栈架构、着色器（Shader）等领域。
+- 🧠 **工程方法论驱动**：内置 TDD（测试驱动开发）、系统化排错、头脑风暴需求探索、极限推敲（Grilling）与内联计划执行等高质量研发工作流。
+- ✂️ **反过度工程与极简主义**：集成 Ponytail 7 级决策阶梯，遵循“最好的代码就是没写过的代码”，克制伪需求、过度抽象与冗余依赖，支持极简专向 Review 与技术债追踪。
+- 🛠️ **多领域专家技能**：覆盖 Android 原生开发（MD3/Vitals）、iOS 应用开发（SwiftUI/SnapKit/HIG）、界面设计工程与流体动画（Emil Kowalski 经典动效集）、现代旗舰前端（动效/多媒体生成/字体库）、全栈架构、着色器（Shader）等领域。
 - 📦 **渐进式资产与知识库**：采用 Progressive Disclosure 渐进式加载，深度知识库（`references/`）、自动化工具（`scripts/`）与模版（`templates/`）按需查阅，**零多余 Token 消耗**。
 - 🇨🇳 **本地化工程增强**：提供中文 Code Review 沟通模板、中文技术文档排版规范、国内 Git 平台（Gitee/GitLab/Coding）协作工作流。
-- 📐 **严格工业级代码守则**：内置 `AGENTS.md` 8 大行为准则，强约束三大流程硬门禁、代码事实源校准、顶部标准导包与阿里规范注释，确保生成代码高质量交付。
+- 📐 **严格工业级代码守则**：内置 `AGENTS.md` 11 大核心研发规范，强约束五大流程硬门禁、代码事实源校准、顶部标准导包与阿里规范注释，确保生成代码高质量交付。
 
 ---
 
@@ -31,8 +32,6 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 ### 2. 团队协作与代码审查 (Collaboration & Review)
 | 技能目录 | 作用与适用场景 |
 | :--- | :--- |
-| **`subagent-driven-development`** | 子智能体驱动开发（SDD），为每个任务分派隔离子智能体，执行单任务双重审查与全分支宽范围审查。 |
-| **`dispatching-parallel-agents`** | 分发并行子智能体，处理无状态依赖的独立并行任务。 |
 | **`requesting-code-review`** | 请求代码审查，完成重要功能或合并前进行合规性自检与审查准备。 |
 | **`receiving-code-review`** | 接收审查反馈，对反馈进行技术验证与精准实施，避免敷衍附和或盲目执行。 |
 | **`workflow-runner`** | 跨多角色协作工作流执行引擎，支持本地解析运行 agency-orchestrator 工作流。 |
@@ -47,7 +46,33 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 | **`fullstack-dev`** | **全栈架构与端到端系统设计**<br>• RESTful API / SSE / WebSocket 接口设计规范与契约<br>• JWT / OAuth2 鉴权链路与安全防护机制<br>• 关系型与 NoSQL 数据库建模与迁移指南<br>• 测试金字塔策略与生产发布检查清单（Release Checklist） | 全栈应用开发、后端服务搭建、前后端接口对接、数据库设计与高可靠生产级交付。 |
 | **`shader-dev`** | **图形着色器与渲染特效**<br>• GLSL / HLSL / Metal 着色器开发<br>• 光线步进（Ray Marching）、SDF 建模与流体/粒子系统<br>• 渲染管线与光照/后处理特效计算与 GPU 性能调优 | 2D/3D 视觉特效制作、自定义 Shader 编写、Canvas/WebGL/图形渲染管线开发。 |
 
-### 4. 中文与本地化规范 (Localization)
+### 4. 界面设计工程与高级动效 (Design Engineering & Motion - Emil Kowalski 经典集)
+| 技能目录 | 核心技术栈与作用 | 适用场景 |
+| :--- | :--- | :--- |
+| **`emil-design-eng`** | **旗舰设计工程哲学与手感指南**<br>• Emil Kowalski 核心设计工程原则与隐性细节<br>• 缓动曲线（Easing）决策、半透明阴影与边框品味<br>• 触感交互、过渡时机与手感打磨 | 提升界面设计品味、打磨组件交互细节、解决 AI 界面“粗糙感/廉价感”。 |
+| **`animate`** | **现代 Web 动效构建专家**<br>• 从零构建原生 CSS / Framer Motion 动画<br>• 精准匹配曲线参数、时长、阻尼与硬件加速属性<br>• 常见反模式（如入场错用 ease-in）自动纠正 | 从零编写 Web 动画、微交互动画、页面过渡动效。 |
+| **`animate-expo`** | **React Native & Expo 原生手感动效**<br>• 复杂手势交互与 BottomSheet 抽屉流体联动<br>• 触觉反馈（Haptics）与原生系统动画结合<br>• 确保动画完全运行在 UI 原生线程（Reanimated），绝不卡顿 | 移动端 React Native 与 Expo 应用动效开发与流畅度优化。 |
+| **`review-animations`** | **严格动效审查与代码走查**<br>• 依据行业顶级规范严格审计既有动效实现<br>• 检查过冲、弹跳过激、性能瓶颈与帧率异常 | 动效 Code Review、性能优化与体验把关。 |
+| **`improve-animations`** | **全项目动效审计与重构引擎**<br>• 扫描整个代码库中的动画实现并出具自包含改进计划<br>• 输出优先级清晰的重构与打磨清单 | 存量系统动效体验全面翻新与系统化打磨。 |
+| **`find-animation-opportunities`** | **动效机会挖掘与克制准则**<br>• 智能识别界面中最能带来情绪价值与指引作用的动效点<br>• 明确标出“坚决不该加动画”的区域，避免过度设计 | 产品交互改版、微交互设计发散与克制评估。 |
+| **`animation-vocabulary`** | **动效专业词汇与表达词典**<br>• 动效行业标准术语表（Spring、Stagger、Morphing 等）<br>• 辅助开发者与 AI 形成精确动效语义共识 | 精确表达动效诉求、告别“我想让它稍微动一下”等模糊描述。 |
+| **`apple-design`** | **Apple HIG 与流体动画的 Web 转化**<br>• 提炼自 WWDC 官方设计演讲的精髓<br>• 连续曲率、物理动量、分层模糊与流体中断响应 | 追求 Apple 级极致精致手感、高级质感界面的 Web 落地。 |
+| **`write-swift`** | **现代化 Swift 编程与并发安全**<br>• 值类型语义、Swift 6 Concurrency 并发模型<br>• 泛型、高性能 Swift 与现代 Swift Testing 框架 | 现代 Swift 原生编程、iOS / macOS 底层逻辑开发。 |
+| **`pick-ui-library`** | **工业级 UI 库选型专家**<br>• 依据经过千万级用户验证的现代前端组件生态进行推荐<br>• 杜绝 AI 徒手乱造低劣轮子或引入废弃过时依赖 | 前端脚手架初始化、Toast/Dialog/Select 等核心组件选型。 |
+| **`prototype`** | **交互式多方案比稿原型生成器**<br>• 根据需求快速构建多种不同视觉与交互变体（Variants）<br>• 自动注入方案切换器（Switcher），供直观对比体验 | 前期设计探索、多方案视觉/交互决策对比。 |
+| **`ask-sonner`** | **Sonner 官方权威指南**<br>• Emil 出品的知名 Toast 库全景指南<br>• 优雅堆叠（Stacked）、状态同步、自定义主题与避坑实战 | 快速接入或高级定制 Sonner 通知组件。 |
+
+### 5. 反过度工程与极简主义 (Anti-Overengineering - Ponytail 体系)
+| 技能目录 | 核心技术栈与作用 | 适用场景 |
+| :--- | :--- | :--- |
+| **`ponytail`** | **极简主义决策阶梯与反过度设计**<br>• 7 级极简决策阶梯（YAGNI ➔ 现有代码复用 ➔ 标准库 ➔ 平台原生 ➔ 一行实现 ➔ 最少代码）<br>• 资深开发者务实准则（“最好的代码就是你没写的代码”，绝不为虚构需求提前设计）<br>• 支持 lite / full / ultra 三级执行强度 | 任何代码编写、重构与架构设计；杜绝样板代码泛滥、单实现假接口与多余依赖。 |
+| **`ponytail-review`** | **极简主义专向代码走查**<br>• 专注消除不必要复杂度，给冗余代码精准贴标签（`delete:`, `stdlib:`, `native:`, `yagni:`, `shrink:`）<br>• 追求审查后 Diff 越来越短 | 针对 PR 或 Diff 进行反过度设计审查，精简代码体量。 |
+| **`ponytail-audit`** | **全仓库复杂度排查与瘦身审计**<br>• 全面扫描整个代码库，输出按删减价值排序的清理与降重清单<br>• 识别自造轮子并替换为语言标准库或原生能力 | 存量项目瘦身、消除历史包袱、简化系统复杂度。 |
+| **`ponytail-debt`** | **极简决策技术债账本管理**<br>• 集中抓取全项目中的 `ponytail:` 临时妥协与上限标记<br>• 明确升级触发条件，防止权宜之计腐化为永久技术债 | 技术债务可视化追踪与渐进式架构演进。 |
+| **`ponytail-gain`** | **代码精简收益评分板**<br>• 基于权威基准量化展示减少的代码行数、节省的 Token 与成本下降 | 评估极简架构收益与团队效能度量。 |
+| **`ponytail-help`** | **Ponytail 规则与指令速查指南**<br>• 决策阶梯速查、强度切换说明与常用快捷指令 | 快速查阅 Ponytail 规则、强度参数与操作方式。 |
+
+### 6. 中文与本地化规范 (Localization)
 | 技能目录 | 作用与适用场景 |
 | :--- | :--- |
 | **`chinese-documentation`** | 中文技术文档排版指南（遵循中英文混排空格、标点及术语大小写规范）。 |
@@ -103,9 +128,8 @@ flowchart TD
 
 | 场景 | 使用技能 | 选择依据 |
 | :--- | :--- | :--- |
-| 当前会话已有书面计划，任务基本独立，且平台支持子 Agent | [`subagent-driven-development`](subagent-driven-development/SKILL.md) | 每个任务使用隔离子 Agent，并执行任务级与最终审查 |
-| 在单独会话中执行书面计划，或无法使用子 Agent | [`executing-plans`](executing-plans/SKILL.md) | 批量执行计划，并在检查点汇报 |
-| 存在 2 个以上互不依赖、无共享状态的即时任务 | [`dispatching-parallel-agents`](dispatching-parallel-agents/SKILL.md) | 并行收集结果；不用于存在顺序依赖的任务 |
+| 普通任务 | 当前会话内联执行 | 默认方式，不再重复询问执行方式 |
+| 需要分批检查点或单独会话执行书面计划 | [`executing-plans`](executing-plans/SKILL.md) | 批量执行计划，并在检查点汇报 |
 | 用户提供 YAML 工作流，或明确要求多个角色协作 | [`workflow-runner`](workflow-runner/SKILL.md) | 按依赖关系拓扑执行角色步骤 |
 
 ### 阶段产物与质量门禁
@@ -139,7 +163,7 @@ flowchart TD
 
 ## 🚀 安装与使用指南
 
-> 💡 **AI 一键安装与上游同步**：你可以直接查看 [INSTALL.md](INSTALL.md) 进行一键全自动安装，或查看 [UPDATE.md](UPDATE.md) 了解如何从上游开源项目（superpowers-zh、MiniMax-AI/skills、mattpocock/skills 等）同步与更新最新技能库。
+> 💡 **AI 一键安装与上游同步**：你可以直接查看 [INSTALL.md](INSTALL.md) 进行一键全自动安装，或查看 [UPDATE.md](UPDATE.md) 了解如何从上游开源项目（superpowers-zh、MiniMax-AI/skills、mattpocock/skills、emilkowalski/skills、DietrichGebert/ponytail 等）同步与更新最新技能库。
 
 ---
 
@@ -148,9 +172,9 @@ flowchart TD
 将技能文件夹复制到对应客户端的全局配置目录：
 
 - **Antigravity / Gemini CLI**:
-  - **Windows (PowerShell)**:
+  - **Windows (PowerShell 推荐)**:
     ```powershell
-    Copy-Item -Path ".\*" -Destination "$HOME\.gemini\config\skills" -Recurse -Force
+    Get-ChildItem -Directory | Where-Object { $_.Name -notlike ".*" } | Copy-Item -Destination "$HOME\.gemini\config\skills" -Recurse -Force
     ```
   - **Windows (CMD)**:
     ```cmd
@@ -158,13 +182,13 @@ flowchart TD
     ```
   - **macOS / Linux**:
     ```bash
-    cp -r * ~/.gemini/config/skills/
+    cp -r */ ~/.gemini/config/skills/
     ```
 
 - **Codex**:
-  - **Windows (PowerShell)**:
+  - **Windows (PowerShell 推荐)**:
     ```powershell
-    Copy-Item -Path ".\*" -Destination "$HOME\.codex\skills" -Recurse -Force
+    Get-ChildItem -Directory | Where-Object { $_.Name -notlike ".*" } | Copy-Item -Destination "$HOME\.codex\skills" -Recurse -Force
     ```
   - **Windows (CMD)**:
     ```cmd
@@ -172,7 +196,7 @@ flowchart TD
     ```
   - **macOS / Linux**:
     ```bash
-    cp -r * ~/.codex/skills/
+    cp -r */ ~/.codex/skills/
     ```
 
 - **Claude Code**:
@@ -196,16 +220,19 @@ cp -r /path/to/DevSkill/<skill-name> .agents/skills/
 
 ## 📜 工作流规范配置 (AGENTS.md)
 
-本项目根目录下提供了开箱即用的 `AGENTS.md`，内含 **8 大核心研发守则**，用于约束 Agent 的底层行为：
+本项目根目录下提供了开箱即用的 `AGENTS.md`，内含 **11 大核心研发规范**，用于约束 Agent 的底层行为：
 
-1. **Skill 优先与三大硬门禁**：前置执行 `using-superpowers` 路由；强制推敲（`grilling`）、根因排错（`systematic-debugging`）、完工前验证（`verification-before-completion`）。
-2. **人设与称呼定制**：支持个性化角色设定与交互称谓。
-3. **执行透明与闭环审计**：回答末尾强制保留「总结：本次回答使用的 Skill」小结。
-4. **跨语言顶部标准导包**：强制顶部显式声明 `import`，严禁长路径内联调用，杜绝漏导包。
-5. **代码事实源与阅读校准**：零假设施工（Zero-Trust Memory），Grep 先行 + 精准切片（Slice Viewing）校准真实磁盘代码。
-6. **类结构与成员集中声明**：伴生对象、常量、状态与属性统一在顶部集中声明并附带规范注释。
-7. **阿里巴巴 Javadoc/KDoc 注释规范**：类、方法、属性强制使用 `/** ... */` 标准注释，要素完整（`@param`、`@return`）。
-8. **Android 常用编译与构建指令规范**：跨操作系统（macOS/Linux/Windows）与多 Flavor 变体动态适配构建。
+1. **指令优先级与授权边界**：明确用户指令与项目 `AGENTS.md` 的最高优先级，未经授权严禁擅自提交、推送或修改外部系统。
+2. **人设与称谓定制**：支持灵活定制 Agent 角色设定与交互称呼。
+3. **Skill 优先与五大质量硬门禁**：前置路由执行 `using-superpowers`；设计批准门禁、TDD 门禁、根因排查门禁（`systematic-debugging`）、代码审查门禁与交付验证门禁（`verification-before-completion`）。
+4. **授权、暂停与工作区保护**：遇到关键需求歧义或验证失败时强制暂停；严禁破坏性覆盖未跟踪资产。
+5. **回答复盘与透明度规范**：末尾强制显式总结「本次回答使用的 Skill」，并附带本地链接与职责说明。
+6. **代码事实源与零假设校准**：零信任代码记忆（Zero-Trust Memory），先查磁盘最新状态再动笔，支持 Grep 先行与区间切片读取。
+7. **导包、成员布局与注释规范**：顶部标准导入、严禁长路径内联；常量与状态集中布局；公共 API 规范文档注释。
+8. **Android 构建与验证规范**：Gradle Wrapper 跨平台适配、动态探测 Flavor 与变体、分层验证策略。
+9. **前后端构建与验证规范**：前端分流快速构建、编译日志静默纪律（构建成功静默、失败强制折叠收起）。
+10. **iOS 构建与验证规范**：Workspace/Project 动态探测、Debug 模拟器快速编译验证与静默日志规范。
+11. **文档归档与管理规范 (Documentation Management Mandate)**：研发过程文档必须统一归档至 `docs/` 目录，命名规范，严禁污染项目根目录。
 
 ---
 

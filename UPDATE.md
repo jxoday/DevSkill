@@ -11,8 +11,10 @@ DevSkill 融合并精选了以下优秀开源项目的最佳实践、工业级�
 | 上游开源仓库 | 核心技能与对应文件路径 | DevSkill 对应模块与设计定位 | 开源地址 |
 | :--- | :--- | :--- | :--- |
 | **`mattpocock/skills`** | • `skills/productivity/grill-me/SKILL.md`<br>• `skills/engineering/grill-with-docs/SKILL.md`<br>• `skills/engineering/improve-codebase-architecture/`<br>• `skills/engineering/domain-modeling/`<br>• `skills/engineering/codebase-design/` | • **`grilling`**：整合 Matt Pocock 的 `grill-me`（决策树收敛）与 `grill-with-docs`（文档驱动推敲），支持 `/grill-me` 与 `/grill-with-docs` 双模式，实时沉淀 `CONTEXT.md` 与 ADRs 架构决策记录。<br>• **架构演化思想**：吸收高内聚深模块设计（Deep Modules）与领域建模最佳实践。 | [mattpocock/skills](https://github.com/mattpocock/skills) |
-| **`superpowers-zh`** | • `skills/using-superpowers/`<br>• `skills/brainstorming/`<br>• `skills/writing-plans/` & `skills/executing-plans/`<br>• `skills/subagent-driven-development/`<br>• `skills/test-driven-development/`<br>• `skills/systematic-debugging/`<br>• `skills/verification-before-completion/`<br>• `skills/chinese-*`（Code Review、排版、Git 等） | • **流程总控与工程硬门禁**：前置 `using-superpowers` 路由决策树；TDD 红绿循环；系统化排错；子智能体驱动开发（SDD）；完工前新鲜证据门禁。<br>• **中文本土化体系**：中文技术排版指北、中文审查话术模板与国内 Git 平台接入。 | [jnMetaCode/superpowers-zh](https://github.com/jnMetaCode/superpowers-zh/tree/main) |
+| **`superpowers-zh`** | • `skills/using-superpowers/`<br>• `skills/brainstorming/`<br>• `skills/writing-plans/` & `skills/executing-plans/`<br>• `skills/test-driven-development/`<br>• `skills/systematic-debugging/`<br>• `skills/verification-before-completion/`<br>• `skills/chinese-*`（Code Review、排版、Git 等） | • **流程总控与工程硬门禁**：前置 `using-superpowers` 路由决策树；默认当前会话内联执行；TDD 红绿循环；系统化排错；完工前新鲜证据门禁。<br>• **中文本土化体系**：中文技术排版指北、中文审查话术模板与国内 Git 平台接入。 | [jnMetaCode/superpowers-zh](https://github.com/jnMetaCode/superpowers-zh/tree/main) |
 | **`MiniMax-AI/skills`** | • `skills/frontend-dev/`（含 `scripts/`, `references/`, `templates/`, `canvas-fonts/`）<br>• `skills/fullstack-dev/`（含 `references/`）<br>• `skills/android-native-dev/`（含 `references/`）<br>• `skills/ios-application-dev/`（含 `references/`）<br>• `skills/shader-dev/`<br>*(可选扩展：`flutter-dev`, `react-native-dev`, Office 系列等)* | • **领域专家与深度知识库**：<br>  - `frontend-dev`：旗舰前端（动效 + Minimax TTS/音乐/视频/图像脚本 + Canvas 字体库）；<br>  - `fullstack-dev`：REST/SSE/WebSocket 契约、鉴权流、DB 建模与上线清单；<br>  - `android-native-dev` & `ios-application-dev`：MD3、Android Vitals 监控、SnapKit/SwiftUI、Metal Shader、Apple HIG 指南；<br>  - `shader-dev`：GLSL、Ray Marching、SDF 几何建模与后处理管线。 | [MiniMax-AI/skills](https://github.com/MiniMax-AI/skills) |
+| **`emilkowalski/skills`** | • `skills/emil-design-eng/`<br>• `skills/animate/` & `skills/animate-expo/`<br>• `skills/review-animations/` & `skills/improve-animations/`<br>• `skills/find-animation-opportunities/`<br>• `skills/animation-vocabulary/`<br>• `skills/apple-design/`<br>• `skills/write-swift/`<br>• `skills/pick-ui-library/` & `skills/prototype/`<br>• `skills/ask-sonner/` | • **界面设计工程与高级动效（12 个技能）**：<br>  - `emil-design-eng`：UI 质感打磨哲学、隐性交互细节与半透明设计品味；<br>  - `animate` & `animate-expo`：从零构建现代 Web/RN 动画与原生 UI 线程渲染；<br>  - `review-animations` & `improve-animations`：动效 Code Review 与全项目动效重构审计；<br>  - `apple-design`：Apple HIG 物理动量与流体动效在 Web 端的极致落地；<br>  - `write-swift`：现代 Swift 6 并发安全与测试；<br>  - `pick-ui-library`、`prototype` 与 `ask-sonner`：成熟组件库选型、多方案比稿原型与 Sonner 指南。 | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
+| **`DietrichGebert/ponytail`** | • `skills/ponytail/`<br>• `skills/ponytail-review/`<br>• `skills/ponytail-audit/`<br>• `skills/ponytail-debt/`<br>• `skills/ponytail-gain/`<br>• `skills/ponytail-help/`<br>• `docs/platform-native.md` | • **反过度工程与极简主义（6 个技能）**：<br>  - `ponytail`：7 级极简决策阶梯（YAGNI ➔ 复用 ➔ 标准库 ➔ 平台原生 ➔ 一行实现 ➔ 最少代码），老资深开发者务实准则；<br>  - `ponytail-review` & `ponytail-audit`：专向复杂度审查与全库瘦身审计，打标 `delete:`, `stdlib:`, `native:`, `yagni:`, `shrink:`；<br>  - `ponytail-debt`：技术债账本管理，追踪 `ponytail:` 标记；<br>  - `references/platform-native.md`：原生平台能力替代臃肿第三方依赖速查。 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
 
 ---
 
@@ -28,11 +30,15 @@ DevSkill 融合并精选了以下优秀开源项目的最佳实践、工业级�
    - **`grilling` 技能**：参考 `skills/productivity/grill-me/SKILL.md` 与 `skills/engineering/grill-with-docs/SKILL.md`，同步更新 DevSkill `grilling` 的极限推敲决策树逻辑与 `CONTEXT.md` / ADR 内联沉淀规范；
    - **架构设计理念**：提取 `improve-codebase-architecture`、`domain-modeling` 与 `codebase-design` 的最佳实践，丰富到各领域技能的 `references/` 中。
 2. **superpowers-zh** (https://github.com/jnMetaCode/superpowers-zh.git):
-   - **核心工程流程**：同步 `using-superpowers`, `brainstorming`, `writing-plans`, `executing-plans`, `subagent-driven-development`, `dispatching-parallel-agents`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review`；
+   - **核心工程流程**：同步 `using-superpowers`, `brainstorming`, `writing-plans`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `requesting-code-review`, `receiving-code-review`；`subagent-driven-development` 与 `dispatching-parallel-agents` 仅保留本仓库兼容占位，不再从上游同步；
    - **本土化技能**：同步 `chinese-code-review`, `chinese-documentation`, `chinese-git-workflow`, `workflow-runner`。
 3. **MiniMax-AI/skills** (https://github.com/MiniMax-AI/skills.git):
    - **领域专家资产**：同步 `frontend-dev`（含 `scripts/` 多媒体生成脚本、`references/` 动效指南、`templates/`、`canvas-fonts/` 字体库）；
    - **移动端与全栈指南**：同步 `android-native-dev`（性能与 Vitals 指南）、`ios-application-dev`（HIG 与布局指南）、`fullstack-dev`（API 契约与发布清单）与 `shader-dev`（着色器技术指南）下的 `references/`。
+4. **emilkowalski/skills** (https://github.com/emilkowalski/skills.git):
+   - **界面设计工程与动效**：同步 `emil-design-eng`, `animate`, `animate-expo`, `review-animations`, `improve-animations`, `find-animation-opportunities`, `animation-vocabulary`, `apple-design`, `write-swift`, `pick-ui-library`, `prototype`, `ask-sonner`（包括配套的 `RECIPES.md`、`API.md`、`AUDIT.md`、`STANDARDS.md` 等完整指南）。
+5. **DietrichGebert/ponytail** (https://github.com/DietrichGebert/ponytail.git):
+   - **反过度工程与极简主义**：同步 `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`，并将 `docs/platform-native.md` 提取同步至 `ponytail/references/platform-native.md`。
 
 ### 2. 差异检测与更新规则：
 - 将上游仓库克隆到系统的临时目录（如 `/tmp/upstream-sync` 或 `$env:TEMP\upstream-sync`）；
@@ -75,7 +81,7 @@ fi
 # 2. 同步 superpowers-zh
 echo "📦 正在拉取 superpowers-zh..."
 git clone --depth 1 https://github.com/jnMetaCode/superpowers-zh.git "$TMP_DIR/superpowers-zh"
-SP_CORE=(using-superpowers brainstorming writing-plans executing-plans subagent-driven-development dispatching-parallel-agents test-driven-development systematic-debugging verification-before-completion requesting-code-review receiving-code-review chinese-code-review chinese-documentation chinese-git-workflow workflow-runner)
+SP_CORE=(using-superpowers brainstorming writing-plans executing-plans test-driven-development systematic-debugging verification-before-completion requesting-code-review receiving-code-review chinese-code-review chinese-documentation chinese-git-workflow workflow-runner)
 for skill in "${SP_CORE[@]}"; do
   if [ -d "$TMP_DIR/superpowers-zh/skills/$skill" ]; then
     mkdir -p "$DEV_SKILL_DIR/$skill"
@@ -102,7 +108,40 @@ if [ -d "$TMP_DIR/minimax-skills/skills" ]; then
   done
 fi
 
-# 4. 清理临时目录
+# 4. 同步 emilkowalski/skills (界面设计工程与高级动效)
+echo "📦 正在拉取 emilkowalski/skills..."
+git clone --depth 1 https://github.com/emilkowalski/skills.git "$TMP_DIR/emil-skills"
+if [ -d "$TMP_DIR/emil-skills/skills" ]; then
+  EMIL_SKILLS=(emil-design-eng animate animate-expo review-animations improve-animations find-animation-opportunities animation-vocabulary apple-design write-swift pick-ui-library prototype ask-sonner)
+  for skill in "${EMIL_SKILLS[@]}"; do
+    if [ -d "$TMP_DIR/emil-skills/skills/$skill" ]; then
+      mkdir -p "$DEV_SKILL_DIR/$skill"
+      cp -r "$TMP_DIR/emil-skills/skills/$skill/"* "$DEV_SKILL_DIR/$skill/"
+      echo "  ✅ 已同步: $skill"
+    fi
+  done
+fi
+
+# 5. 同步 DietrichGebert/ponytail (反过度工程与极简主义)
+echo "📦 正在拉取 DietrichGebert/ponytail..."
+git clone --depth 1 https://github.com/DietrichGebert/ponytail.git "$TMP_DIR/ponytail-repo"
+if [ -d "$TMP_DIR/ponytail-repo/skills" ]; then
+  PONYTAIL_SKILLS=(ponytail ponytail-review ponytail-audit ponytail-debt ponytail-gain ponytail-help)
+  for skill in "${PONYTAIL_SKILLS[@]}"; do
+    if [ -d "$TMP_DIR/ponytail-repo/skills/$skill" ]; then
+      mkdir -p "$DEV_SKILL_DIR/$skill"
+      cp -r "$TMP_DIR/ponytail-repo/skills/$skill/"* "$DEV_SKILL_DIR/$skill/"
+      echo "  ✅ 已同步: $skill"
+    fi
+  done
+  if [ -f "$TMP_DIR/ponytail-repo/docs/platform-native.md" ]; then
+    mkdir -p "$DEV_SKILL_DIR/ponytail/references"
+    cp "$TMP_DIR/ponytail-repo/docs/platform-native.md" "$DEV_SKILL_DIR/ponytail/references/"
+    echo "  ✅ 已同步: ponytail/references/platform-native.md"
+  fi
+fi
+
+# 6. 清理临时目录
 rm -rf "$TMP_DIR"
 echo "🎉 全量上游技能同步完成！请使用 git diff 检查变动并提交。"
 ```
@@ -126,7 +165,7 @@ Write-Host "  ✅ 已对比同步: mattpocock/skills (grill-me & grill-with-docs
 # 2. 同步 superpowers-zh
 Write-Host "📦 正在拉取 superpowers-zh..." -ForegroundColor Yellow
 git clone --depth 1 https://github.com/jnMetaCode/superpowers-zh.git (Join-Path $TmpDir "superpowers-zh")
-$SpSkills = @("using-superpowers", "brainstorming", "writing-plans", "executing-plans", "subagent-driven-development", "dispatching-parallel-agents", "test-driven-development", "systematic-debugging", "verification-before-completion", "requesting-code-review", "receiving-code-review", "chinese-code-review", "chinese-documentation", "chinese-git-workflow", "workflow-runner")
+$SpSkills = @("using-superpowers", "brainstorming", "writing-plans", "executing-plans", "test-driven-development", "systematic-debugging", "verification-before-completion", "requesting-code-review", "receiving-code-review", "chinese-code-review", "chinese-documentation", "chinese-git-workflow", "workflow-runner")
 
 foreach ($skill in $SpSkills) {
     $src = Join-Path $TmpDir "superpowers-zh\skills\$skill"
@@ -156,7 +195,48 @@ if (Test-Path $mmSkills) {
     }
 }
 
-# 4. 清理临时目录
+# 4. 同步 emilkowalski/skills (界面设计工程与高级动效)
+Write-Host "📦 正在拉取 emilkowalski/skills..." -ForegroundColor Yellow
+git clone --depth 1 https://github.com/emilkowalski/skills.git (Join-Path $TmpDir "emil-skills")
+$emilSkills = Join-Path $TmpDir "emil-skills\skills"
+if (Test-Path $emilSkills) {
+    $eList = @("emil-design-eng", "animate", "animate-expo", "review-animations", "improve-animations", "find-animation-opportunities", "animation-vocabulary", "apple-design", "write-swift", "pick-ui-library", "prototype", "ask-sonner")
+    foreach ($s in $eList) {
+        $srcSkill = Join-Path $emilSkills $s
+        if (Test-Path $srcSkill) {
+            $destSkill = Join-Path $DevSkillDir $s
+            if (-not (Test-Path $destSkill)) { New-Item -ItemType Directory -Force -Path $destSkill | Out-Null }
+            Copy-Item -Path "$srcSkill\*" -Destination $destSkill -Recurse -Force
+            Write-Host "  ✅ 已同步: $s" -ForegroundColor Green
+        }
+    }
+}
+
+# 5. 同步 DietrichGebert/ponytail (反过度工程与极简主义)
+Write-Host "📦 正在拉取 DietrichGebert/ponytail..." -ForegroundColor Yellow
+git clone --depth 1 https://github.com/DietrichGebert/ponytail.git (Join-Path $TmpDir "ponytail-repo")
+$ptSkills = Join-Path $TmpDir "ponytail-repo\skills"
+if (Test-Path $ptSkills) {
+    $pList = @("ponytail", "ponytail-review", "ponytail-audit", "ponytail-debt", "ponytail-gain", "ponytail-help")
+    foreach ($s in $pList) {
+        $srcSkill = Join-Path $ptSkills $s
+        if (Test-Path $srcSkill) {
+            $destSkill = Join-Path $DevSkillDir $s
+            if (-not (Test-Path $destSkill)) { New-Item -ItemType Directory -Force -Path $destSkill | Out-Null }
+            Copy-Item -Path "$srcSkill\*" -Destination $destSkill -Recurse -Force
+            Write-Host "  ✅ 已同步: $s" -ForegroundColor Green
+        }
+    }
+    $refSrc = Join-Path $TmpDir "ponytail-repo\docs\platform-native.md"
+    if (Test-Path $refSrc) {
+        $refDestDir = Join-Path $DevSkillDir "ponytail\references"
+        if (-not (Test-Path $refDestDir)) { New-Item -ItemType Directory -Force -Path $refDestDir | Out-Null }
+        Copy-Item -Path $refSrc -Destination $refDestDir -Force
+        Write-Host "  ✅ 已同步: ponytail\references\platform-native.md" -ForegroundColor Green
+    }
+}
+
+# 6. 清理临时目录
 Remove-Item -Recurse -Force $TmpDir
 Write-Host "🎉 全量上游技能同步完成！请使用 git status / git diff 检查变动并提交。" -ForegroundColor Cyan
 ```
@@ -167,7 +247,7 @@ Write-Host "🎉 全量上游技能同步完成！请使用 git status / git dif
 
 每次从上游同步完成后，必须执行以下 4 步检查与校准：
 
-- [ ] **1. AGENTS.md 行为规则保护校验**：确认 `AGENTS.md` 中的 8 大核心守则（顶部导包、三大硬门禁、阿里 Javadoc 规范等）未被意外修改或覆盖；
+- [ ] **1. AGENTS.md 行为规则保护校验**：确认 `AGENTS.md` 中的 11 大核心研发规范（指令优先级、五大质量硬门禁、顶部导包、前后端与 iOS 构建规范、文档归档管理等）未被意外修改或覆盖；
 - [ ] **2. 相对路径与死链扫描（Reference Validation）**：静态扫描每个技能的 `SKILL.md`，确认其引用的 `references/xxx.md`、`scripts/xxx.py` 和 `templates/` 文件在本地磁盘真实存在；
 - [ ] **3. 中文排版合规性（Chinese Documentation）**：遵循 `chinese-documentation` 规范，检查新增文档的中英文混排空格、全半角标点与术语规范；
 - [ ] **4. Git Diff 干净度审计**：使用 `git diff` 检查所有变动，剔除不必要的临时缓存、构建残留或操作系统元数据文件（如 `.DS_Store`、`Thumbs.db`）。

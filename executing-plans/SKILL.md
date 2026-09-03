@@ -16,7 +16,7 @@ metadata:
 
 **开始时宣布：** "我正在使用 executing-plans 技能来实现此计划。"
 
-**注意：** 告诉你的人类伙伴，Superpowers 在有子代理支持时效果好得多（Claude Code、Codex CLI、Codex App、Copilot CLI 与 Gemini CLI 都算；见 `../using-superpowers/references/` 下的各平台工具参考）。如果子代理可用，请使用 superpowers:subagent-driven-development 而非此技能。
+**执行默认值：** 普通任务默认在当前会话内联执行。只有用户明确选择分批检查点或单独会话执行时才使用此技能，不得自动派遣子 Agent。
 
 ## 流程
 
