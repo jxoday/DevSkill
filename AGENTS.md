@@ -48,6 +48,12 @@
   - `shader-dev`：用于 GLSL、ShaderToy、WebGL Shader、SDF、光照、粒子、程序化生成和后处理等实时图形任务；WebGL 页面集成可联合调用 `frontend-dev`，Metal/iOS 图形集成应联合调用 `ios-application-dev`。
   - 调用领域 Skill 后，先根据其任务路由按需读取对应 `references/`，不得无目的加载全部参考资料；若任务不符合任何领域边界，则不强行调用领域 Skill。
 - **设计工程与高级动效：** 涉及界面质感打磨、动效构建、手势交互与组件库选型时按职责调用：
+  - **示例批准门禁：** 任何准备修改正式 UI、交互或动效代码的任务，都不得直接改动正式业务代码；必须先在 `docs/.generated/examples/<任务名>/` 制作与正式代码隔离的示例，并向用户展示可验证的预览、截图或运行结果。
+  - **迭代与落地：** 用户明确批准前只能修改示例；用户要求调整时继续迭代示例。获得明确批准后，才可将选定方案迁移到正式实现。
+  - **示例形式与归档：** 示例可以包含独立 HTML、图片、动效参数说明或平台原型文件，默认不纳入 Git；用户明确要求长期保留时，才整理并移动到 `docs/` 的正式分类目录或独立示例工程。
+  - **适用范围：** `frontend-dev`、`emil-design-eng`、`animate`、`animate-expo`、`apple-design`、`prototype` 等准备落地正式视觉或动效实现时适用；其他 Skill 只要准备修改正式 UI、交互或动效代码，也受同一门禁约束。
+  - **只读例外：** `review-animations`、`improve-animations`、`find-animation-opportunities`、`animation-vocabulary` 等只读审查、审计、机会分析和术语查询任务不要求制作示例。
+  - **直接修改例外：** 只有用户明确要求直接修改正式代码，或紧急修复同时满足“问题范围明确、仅恢复既有设计、不引入新视觉决策”时，才可跳过示例；跳过示例不免除当前开发模式的授权、测试和验证要求。
   - `emil-design-eng`：用于 Web 界面精细化打磨、组件交互手感、缓动曲线（Easing）与视觉品味；提升 UI 质感时作为主 Skill 或与 `frontend-dev` 联合调用。
   - `animate`：用于从零构建现代 Web 动画（CSS / Motion / 原生 API），精准匹配曲线、时长、阻尼与硬件加速属性。
   - `animate-expo`：用于 React Native 与 Expo 原生手势动效、BottomSheet 抽屉联动、触觉反馈（Haptics）与原生 UI 线程渲染（Reanimated）。
