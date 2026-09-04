@@ -1,4 +1,4 @@
-# DevSkill 技能库上游同步与更新手册 (UPDATE.md)
+﻿# DevSkill 技能库上游同步与更新手册 (UPDATE.md)
 
 本文档旨在指导开发者与维护者如何从上游开源项目中**同步、更新并合并最新的技能（Skills）、文档指南（References）、自动化脚本（Scripts）与模版资源（Templates）**。
 
@@ -15,6 +15,7 @@ DevSkill 融合并精选了以下优秀开源项目的最佳实践、工业级�
 | **`MiniMax-AI/skills`** | • `skills/frontend-dev/`（含 `scripts/`, `references/`, `templates/`, `canvas-fonts/`）<br>• `skills/fullstack-dev/`（含 `references/`）<br>• `skills/android-native-dev/`（含 `references/`）<br>• `skills/ios-application-dev/`（含 `references/`）<br>• `skills/shader-dev/`<br>*(可选扩展：`flutter-dev`, `react-native-dev`, Office 系列等)* | • **领域专家与深度知识库**：<br>  - `frontend-dev`：旗舰前端（动效 + Minimax TTS/音乐/视频/图像脚本 + Canvas 字体库）；<br>  - `fullstack-dev`：REST/SSE/WebSocket 契约、鉴权流、DB 建模与上线清单；<br>  - `android-native-dev` & `ios-application-dev`：MD3、Android Vitals 监控、SnapKit/SwiftUI、Metal Shader、Apple HIG 指南；<br>  - `shader-dev`：GLSL、Ray Marching、SDF 几何建模与后处理管线。 | [MiniMax-AI/skills](https://github.com/MiniMax-AI/skills) |
 | **`emilkowalski/skills`** | • `skills/emil-design-eng/`<br>• `skills/animate/` & `skills/animate-expo/`<br>• `skills/review-animations/` & `skills/improve-animations/`<br>• `skills/find-animation-opportunities/`<br>• `skills/animation-vocabulary/`<br>• `skills/apple-design/`<br>• `skills/write-swift/`<br>• `skills/pick-ui-library/` & `skills/prototype/`<br>• `skills/ask-sonner/` | • **界面设计工程与高级动效（12 个技能）**：<br>  - `emil-design-eng`：UI 质感打磨哲学、隐性交互细节与半透明设计品味；<br>  - `animate` & `animate-expo`：从零构建现代 Web/RN 动画与原生 UI 线程渲染；<br>  - `review-animations` & `improve-animations`：动效 Code Review 与全项目动效重构审计；<br>  - `apple-design`：Apple HIG 物理动量与流体动效在 Web 端的极致落地；<br>  - `write-swift`：现代 Swift 6 并发安全与测试；<br>  - `pick-ui-library`、`prototype` 与 `ask-sonner`：成熟组件库选型、多方案比稿原型与 Sonner 指南。 | [emilkowalski/skills](https://github.com/emilkowalski/skills) |
 | **`DietrichGebert/ponytail`** | • `skills/ponytail/`<br>• `skills/ponytail-review/`<br>• `skills/ponytail-audit/`<br>• `skills/ponytail-debt/`<br>• `skills/ponytail-gain/`<br>• `skills/ponytail-help/`<br>• `docs/platform-native.md` | • **反过度工程与极简主义（6 个技能）**：<br>  - `ponytail`：7 级极简决策阶梯（YAGNI ➔ 复用 ➔ 标准库 ➔ 平台原生 ➔ 一行实现 ➔ 最少代码），老资深开发者务实准则；<br>  - `ponytail-review` & `ponytail-audit`：专向复杂度审查与全库瘦身审计，打标 `delete:`, `stdlib:`, `native:`, `yagni:`, `shrink:`；<br>  - `ponytail-debt`：技术债账本管理，追踪 `ponytail:` 标记；<br>  - `references/platform-native.md`：原生平台能力替代臃肿第三方依赖速查。 | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+| **`nextlevelbuilder/ui-ux-pro-max-skill`** | • `skills/ui-ux-pro-max/`（含完整 `data/` 数据集与搜索脚本 `scripts/`）<br>• `skills/ui-styling/`<br>• `skills/design-system/`<br>• `skills/design/`<br>• `skills/banner-design/`<br>• `skills/slides/`<br>• `skills/brand/` | • **UI/UX 智能设计与设计系统（7 个技能）**：<br>  - `ui-ux-pro-max`：全栈 UI/UX 设计智能引擎（79 种 UI 风格、192 种产品调色板与推理规则、74 种字体配对、119 条 UX 指南、22 种技术栈）；<br>  - `ui-styling`：结合 shadcn/ui、Tailwind CSS 与 Canvas 构建现代化组件与主题美化；<br>  - `design-system`：三层设计令牌（Primitive ➔ Semantic ➔ Component）与组件规范；<br>  - `design`、`banner-design`、`slides` 与 `brand`：品牌视觉识别、Logo AI 生成、全景 Banner 与数据驱动 HTML 幻灯片。 | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) |
 
 ---
 
@@ -39,6 +40,8 @@ DevSkill 融合并精选了以下优秀开源项目的最佳实践、工业级�
    - **界面设计工程与动效**：同步 `emil-design-eng`, `animate`, `animate-expo`, `review-animations`, `improve-animations`, `find-animation-opportunities`, `animation-vocabulary`, `apple-design`, `write-swift`, `pick-ui-library`, `prototype`, `ask-sonner`（包括配套的 `RECIPES.md`、`API.md`、`AUDIT.md`、`STANDARDS.md` 等完整指南）。
 5. **DietrichGebert/ponytail** (https://github.com/DietrichGebert/ponytail.git):
    - **反过度工程与极简主义**：同步 `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `ponytail-gain`, `ponytail-help`，并将 `docs/platform-native.md` 提取同步至 `ponytail/references/platform-native.md`。
+6. **nextlevelbuilder/ui-ux-pro-max-skill** (https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git):
+   - **UI/UX 智能设计与设计系统**：同步 `.claude/skills/` 下的 `ui-ux-pro-max`（包含完整 `data/` 知识库和 `scripts/search.py` 推理引擎）、`ui-styling`、`design-system`、`design`、`banner-design`、`slides`、`brand`。
 
 ### 2. 差异检测与更新规则：
 - 将上游仓库克隆到系统的临时目录（如 `/tmp/upstream-sync` 或 `$env:TEMP\upstream-sync`）；
@@ -141,6 +144,21 @@ if [ -d "$TMP_DIR/ponytail-repo/skills" ]; then
   fi
 fi
 
+# 6. 同步 nextlevelbuilder/ui-ux-pro-max-skill (UI/UX 智能设计与设计系统)
+echo "📦 正在拉取 nextlevelbuilder/ui-ux-pro-max-skill..."
+git clone --depth 1 https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git "$TMP_DIR/uupm-skills"
+if [ -d "$TMP_DIR/uupm-skills/.claude/skills" ]; then
+  UUPM_SKILLS=(ui-ux-pro-max ui-styling design-system design banner-design slides brand)
+  for skill in "${UUPM_SKILLS[@]}"; do
+    if [ -d "$TMP_DIR/uupm-skills/.claude/skills/$skill" ]; then
+      mkdir -p "$DEV_SKILL_DIR/$skill"
+      cp -r "$TMP_DIR/uupm-skills/.claude/skills/$skill/"* "$DEV_SKILL_DIR/$skill/"
+      echo "  ✅ 已同步: $skill"
+    fi
+  done
+fi
+
+
 # 6. 清理临时目录
 rm -rf "$TMP_DIR"
 echo "🎉 全量上游技能同步完成！请使用 git diff 检查变动并提交。"
@@ -233,6 +251,23 @@ if (Test-Path $ptSkills) {
         if (-not (Test-Path $refDestDir)) { New-Item -ItemType Directory -Force -Path $refDestDir | Out-Null }
         Copy-Item -Path $refSrc -Destination $refDestDir -Force
         Write-Host "  ✅ 已同步: ponytail\references\platform-native.md" -ForegroundColor Green
+    }
+}
+
+# 6. 同步 nextlevelbuilder/ui-ux-pro-max-skill (UI/UX 智能与设计系统)
+Write-Host "📦 正在拉取 nextlevelbuilder/ui-ux-pro-max-skill..." -ForegroundColor Yellow
+git clone --depth 1 https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git (Join-Path $TmpDir "uupm-skills")
+$uupmSkillsDir = Join-Path $TmpDir "uupm-skills\.claude\skills"
+if (Test-Path $uupmSkillsDir) {
+    $uupmList = @("ui-ux-pro-max", "ui-styling", "design-system", "design", "banner-design", "slides", "brand")
+    foreach ($skill in $uupmList) {
+        $src = Join-Path $uupmSkillsDir $skill
+        if (Test-Path $src) {
+            $dest = Join-Path $DevSkillDir $skill
+            if (-not (Test-Path $dest)) { New-Item -ItemType Directory -Force -Path $dest | Out-Null }
+            Copy-Item -Path "$src\*" -Destination $dest -Recurse -Force
+            Write-Host "  ✅ 已同步: $skill" -ForegroundColor Green
+        }
     }
 }
 

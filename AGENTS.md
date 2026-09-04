@@ -54,8 +54,13 @@
   - **明确告知方可修改代码：** **严禁私自将设计改动应用到正式代码中；除非有哥哥明确告知“按照设计修改代码”，在此之前绝对不得触碰任何正式代码，所有设计、微调与样式改动一律仅在 HTML 示例中进行**。
   - **迭代与落地：** 哥哥对设计提出调整意见时，继续在 HTML 示例中迭代优化；只有在哥哥明确确认方案并明确告知按照该设计修改代码后，才可将 HTML 示例中的结构、样式与动效迁移落地至正式业务工程。
   - **示例形式与归档：** 示例必须为自包含的独立 HTML 文件（可包含内嵌或引入的 CSS/JS），默认不纳入 Git；哥哥明确要求长期保留时，才整理并移动到 `docs/` 的正式分类目录或独立示例工程。
-  - **适用范围：** `frontend-dev`、`emil-design-eng`、`animate`、`animate-expo`、`apple-design`、`prototype` 等涉及界面视觉、动效与交互设计的任务；其他 Skill 只要涉及设计与交互，也受同一门禁约束。
+  - **适用范围：** `ui-ux-pro-max`、`ui-styling`、`design-system`、`design`、`banner-design`、`slides`、`brand`、`frontend-dev`、`emil-design-eng`、`animate`、`animate-expo`、`apple-design`、`prototype` 等涉及界面视觉、动效与交互设计的任务；其他 Skill 只要涉及设计与交互，也受同一门禁约束。
   - **只读例外：** `review-animations`、`improve-animations`、`find-animation-opportunities`、`animation-vocabulary` 等只读审查、审计、机会分析和术语查询任务不要求制作示例。
+  - `ui-ux-pro-max`：全栈 UI/UX 设计智能引擎，提供 79 种可搜索 UI 风格、192 种行业调色板与推理规则、74 种字体配对、119 条 UX 指南及 22 种技术栈规范；设计前调用 `scripts/search.py` 匹配最佳设计系统与推荐选项。
+  - `ui-styling`：用于基于 shadcn/ui、Tailwind CSS 与 Canvas 打造现代界面组件、主题配色与响应式布局。
+  - `design-system`：用于建立 Primitive ➔ Semantic ➔ Component 三层设计令牌体系、CSS 变量体系与组件规范。
+  - `design`：统一设计技能，用于品牌视觉、Logo 生成、企业 VI（CIP）、Banner 与社媒图片。
+  - `banner-design` / `slides` / `brand`：用于全尺寸横幅设计、数据驱动的 Chart.js 演示幻灯片与品牌语调资产管理。
   - `emil-design-eng`：用于 Web 界面精细化打磨、组件交互手感、缓动曲线（Easing）与视觉品味；提升 UI 质感时作为主 Skill 或与 `frontend-dev` 联合调用。
   - `animate`：用于从零构建现代 Web 动画（CSS / Motion / 原生 API），精准匹配曲线、时长、阻尼与硬件加速属性。
   - `animate-expo`：用于 React Native 与 Expo 原生手势动效、BottomSheet 抽屉联动、触觉反馈（Haptics）与原生 UI 线程渲染（Reanimated）。

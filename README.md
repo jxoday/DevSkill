@@ -62,7 +62,18 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 | **`prototype`** | **交互式多方案比稿原型生成器**<br>• 根据需求快速构建多种不同视觉与交互变体（Variants）<br>• 自动注入方案切换器（Switcher），供直观对比体验 | 前期设计探索、多方案视觉/交互决策对比。 |
 | **`ask-sonner`** | **Sonner 官方权威指南**<br>• Emil 出品的知名 Toast 库全景指南<br>• 优雅堆叠（Stacked）、状态同步、自定义主题与避坑实战 | 快速接入或高级定制 Sonner 通知组件。 |
 
-### 5. 反过度工程与极简主义 (Anti-Overengineering - Ponytail 体系)
+### 5. UI/UX 智能设计与设计系统 (UI/UX Intelligence & Design Systems - UI UX Pro Max 体系)
+| 技能目录 | 核心技术栈与作用 | 适用场景 |
+| :--- | :--- | :--- |
+| **`ui-ux-pro-max`** | **全栈 UI/UX 设计智能引擎 (v2.13.0)**<br>• 79 种可搜索 UI 风格（50 种 active，涵盖新拟态/玻璃拟态/便当网格/极简等）<br>• 192 种产品类型专属调色板与推理规则（涵盖 SaaS、电商、金融、医疗等）<br>• 74 种精选字体组合与 Google Fonts 导入、25 种图表类型推荐<br>• 119 条工业级 UX 指南、22 种技术栈（React/Vue/Compose/SwiftUI/Flutter 等）支持<br>• 内置 BM25 + 正则混合搜索与一键设计系统生成推理引擎（`scripts/search.py`） | 页面原型设计、色彩与字体决策、设计系统搭建、无障碍（A11y）合规审计、技术栈专用 UI 代码生成。 |
+| **`ui-styling`** | **现代 UI 组件与样式工程**<br>• 结合 shadcn/ui 组件系统（Radix UI 基础）与 Tailwind CSS 实用优先类库<br>• Canvas 可视化设计、海报设计与即时原型反馈<br>• 深度适配暗黑模式（Dark Mode）与响应式移动端断点 | 现代前端组件开发、页面排版与样式美化、主题定制与海报排版。 |
+| **`design-system`** | **三层设计令牌与组件工程架构**<br>• Primitive ➔ Semantic ➔ Component 三层设计令牌（Design Tokens）体系<br>• CSS 变量系统构建、间距/字体比例尺与设计到代码的交付契约（Handoff）<br>• 品牌合规的幻灯片/演示文稿生成 | 企业级设计系统沉淀、设计规范落地、组件状态与样式变量标准化。 |
+| **`design`** | **全景统一设计专家**<br>• 品牌视觉识别、Logo AI 生成（55 种风格）、企业 VI 识别系统（CIP，50 项交付物）<br>• 社交媒体多平台适配（Facebook/Twitter/LinkedIn/Instagram/TikTok 等）<br>• 矢量图标设计（SVG）、多尺寸 Banner 广告图与设计规范交付 | 品牌形象设计、Logo 与海报生成、社媒多渠道营销视觉物料输出。 |
+| **`banner-design`** | **全尺寸横幅与营销图设计**<br>• 涵盖社交媒体封面、广告条（Banner）、网站 Hero 主图、线下印刷等多场景<br>• 支持极简、渐变、立体、粗野、复古等 22 种艺术风格与自包含排版布局 | 营销活动 Banner、网站 Hero 视觉、信息流广告图排版与设计。 |
+| **`slides`** | **数据驱动的 HTML 演示文稿生成**<br>• 基于 Chart.js 的交互式数据可视化幻灯片<br>• 结合文案公式（Copywriting Formulas）与结构化排版布局 | 技术分享 PPT、商业商业计划书（Pitch Deck）、数据汇报大屏。 |
+| **`brand`** | **品牌语调与资产规范一致性**<br>• 品牌语调（Brand Voice）定义与文案风格指南<br>• 视觉识别标准、资产命名规范与全渠道一致性审查审计 | 品牌资产管理、内容语调把控、跨平台品牌视觉规范走查。 |
+
+### 6. 反过度工程与极简主义 (Anti-Overengineering - Ponytail 体系)
 | 技能目录 | 核心技术栈与作用 | 适用场景 |
 | :--- | :--- | :--- |
 | **`ponytail`** | **极简主义决策阶梯与反过度设计**<br>• 7 级极简决策阶梯（YAGNI ➔ 现有代码复用 ➔ 标准库 ➔ 平台原生 ➔ 一行实现 ➔ 最少代码）<br>• 资深开发者务实准则（“最好的代码就是你没写的代码”，绝不为虚构需求提前设计）<br>• 支持 lite / full / ultra 三级执行强度 | 任何代码编写、重构与架构设计；杜绝样板代码泛滥、单实现假接口与多余依赖。 |
@@ -72,7 +83,7 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 | **`ponytail-gain`** | **代码精简收益评分板**<br>• 基于权威基准量化展示减少的代码行数、节省的 Token 与成本下降 | 评估极简架构收益与团队效能度量。 |
 | **`ponytail-help`** | **Ponytail 规则与指令速查指南**<br>• 决策阶梯速查、强度切换说明与常用快捷指令 | 快速查阅 Ponytail 规则、强度参数与操作方式。 |
 
-### 6. 中文与本地化规范 (Localization)
+### 7. 中文与本地化规范 (Localization)
 | 技能目录 | 作用与适用场景 |
 | :--- | :--- |
 | **`chinese-documentation`** | 中文技术文档排版指南（遵循中英文混排空格、标点及术语大小写规范）。 |
