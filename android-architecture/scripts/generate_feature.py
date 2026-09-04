@@ -9,7 +9,7 @@ Example:
     python generate_feature.py settings --package com.example.app --path /path/to/project
 """
 
-import os
+import re
 import sys
 import argparse
 from pathlib import Path
@@ -26,6 +26,11 @@ def to_camel_case(name: str) -> str:
     return pascal[0].lower() + pascal[1:] if pascal else ''
 
 
+def to_module_name(name: str) -> str:
+    """Normalize validated feature names for directories, packages and Gradle."""
+    return name.replace('-', '').replace('_', '')
+
+
 def create_directory(path: Path):
     """Create directory if it doesn't exist."""
     path.mkdir(parents=True, exist_ok=True)
@@ -33,8 +38,9 @@ def create_directory(path: Path):
 
 
 def write_file(path: Path, content: str):
-    """Write content to file."""
-    path.write_text(content)
+    """Create a UTF-8 file without overwriting existing content."""
+    with path.open('x', encoding='utf-8') as stream:
+        stream.write(content)
     print(f"✅ Created: {path}")
 
 
@@ -43,7 +49,7 @@ def generate_api_navigation(feature_name: str, package: str) -> str:
     pascal = to_pascal_case(feature_name)
     upper_snake = feature_name.upper().replace('-', '_')
     
-    return f'''package {package}.feature.{feature_name.replace('-', '')}.api
+    return f'''package {package}.feature.{to_module_name(feature_name)}.api
 
 import androidx.navigation.NavController
 import kotlinx.serialization.Serializable
@@ -82,7 +88,7 @@ def generate_ui_state(feature_name: str, package: str) -> str:
     """Generate UiState sealed interface."""
     pascal = to_pascal_case(feature_name)
     
-    return f'''package {package}.feature.{feature_name.replace('-', '')}.impl
+    return f'''package {package}.feature.{to_module_name(feature_name)}.impl
 
 sealed interface {pascal}UiState {{
     data object Loading : {pascal}UiState
@@ -103,7 +109,7 @@ def generate_viewmodel(feature_name: str, package: str) -> str:
     pascal = to_pascal_case(feature_name)
     camel = to_camel_case(feature_name)
     
-    return f'''package {package}.feature.{feature_name.replace('-', '')}.impl
+    return f'''package {package}.feature.{to_module_name(feature_name)}.impl
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -153,7 +159,7 @@ def generate_screen(feature_name: str, package: str) -> str:
     pascal = to_pascal_case(feature_name)
     camel = to_camel_case(feature_name)
     
-    return f'''package {package}.feature.{feature_name.replace('-', '')}.impl
+    return f'''package {package}.feature.{to_module_name(feature_name)}.impl
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -264,12 +270,12 @@ def generate_navigation(feature_name: str, package: str) -> str:
     """Generate Navigation setup."""
     pascal = to_pascal_case(feature_name)
     
-    return f'''package {package}.feature.{feature_name.replace('-', '')}.impl
+    return f'''package {package}.feature.{to_module_name(feature_name)}.impl
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import {package}.feature.{feature_name.replace('-', '')}.api.{pascal}Route
+import {package}.feature.{to_module_name(feature_name)}.api.{pascal}Route
 
 fun NavGraphBuilder.{to_camel_case(feature_name)}Screen(
     onBackClick: () -> Unit,
@@ -291,11 +297,11 @@ def generate_impl_build_gradle(feature_name: str, package: str) -> str:
 }}
 
 android {{
-    namespace = "{package}.feature.{feature_name.replace('-', '')}.impl"
+    namespace = "{package}.feature.{to_module_name(feature_name)}.impl"
 }}
 
 dependencies {{
-    api(projects.feature.{feature_name.replace('-', '')}.api)
+    api(projects.feature.{to_module_name(feature_name)}.api)
     
     implementation(projects.core.data)
     implementation(projects.core.ui)
@@ -306,20 +312,38 @@ dependencies {{
 
 def generate_feature_module(feature_name: str, package: str, project_path: Path):
     """Generate complete feature module structure."""
-    
-    feature_dir = project_path / "feature" / feature_name.replace('-', '')
+
+    if not re.fullmatch(r"[a-z][a-z0-9]*(?:[-_][a-z][a-z0-9]*)*", feature_name):
+        raise ValueError("Feature name must be lowercase kebab-case or snake_case")
+    if not re.fullmatch(r"[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*", package):
+        raise ValueError("Package must contain dot-separated lowercase identifiers")
+    module_name = to_module_name(feature_name)
+    reserved = {"con", "prn", "aux", "nul", *(f"com{i}" for i in range(1, 10)),
+                *(f"lpt{i}" for i in range(1, 10))}
+    if any(part in reserved for part in [module_name, *package.split('.')]):
+        raise ValueError("Names must not contain Windows reserved path components")
+    project_path = project_path.resolve(strict=True)
+    if not project_path.is_dir():
+        raise ValueError("Project path must be a directory")
+    feature_dir = project_path / "feature" / module_name
+    if not feature_dir.resolve().is_relative_to(project_path):
+        raise ValueError("Feature target resolves outside the project")
+    # Reserve the whole module before writing any files; also reject dangling links.
+    if feature_dir.is_symlink():
+        raise FileExistsError(f"Feature target already exists: {feature_dir}")
+    feature_dir.mkdir(parents=True, exist_ok=False)
     api_dir = feature_dir / "api"
     impl_dir = feature_dir / "impl"
     
-    api_src = api_dir / "src" / "main" / "kotlin" / package.replace('.', '/') / "feature" / feature_name.replace('-', '') / "api"
-    impl_src = impl_dir / "src" / "main" / "kotlin" / package.replace('.', '/') / "feature" / feature_name.replace('-', '') / "impl"
+    api_src = api_dir / "src" / "main" / "kotlin" / package.replace('.', '/') / "feature" / module_name / "api"
+    impl_src = impl_dir / "src" / "main" / "kotlin" / package.replace('.', '/') / "feature" / module_name / "impl"
     
     # Create directories
     create_directory(api_src)
     create_directory(impl_src)
     
     # Generate api module files
-    write_file(api_dir / "build.gradle.kts", generate_api_build_gradle(package).replace('{}', feature_name.replace('-', '')))
+    write_file(api_dir / "build.gradle.kts", generate_api_build_gradle(package).replace('{}', module_name))
     write_file(api_src / f"{to_pascal_case(feature_name)}Navigation.kt", generate_api_navigation(feature_name, package))
     
     # Generate impl module files
@@ -332,16 +356,16 @@ def generate_feature_module(feature_name: str, package: str, project_path: Path)
     print(f"\n✅ Feature module '{feature_name}' generated successfully!")
     print(f"\nNext steps:")
     print(f"1. Add to settings.gradle.kts:")
-    print(f'   include(":feature:{feature_name.replace("-", "")}:api")')
-    print(f'   include(":feature:{feature_name.replace("-", "")}:impl")')
+    print(f'   include(":feature:{module_name}:api")')
+    print(f'   include(":feature:{module_name}:impl")')
     print(f"2. Add dependency in app/build.gradle.kts:")
-    print(f'   implementation(projects.feature.{feature_name.replace("-", "")}.impl)')
+    print(f'   implementation(projects.feature.{module_name}.impl)')
     print(f"3. Add navigation in NiaNavHost")
 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate Android feature module")
-    parser.add_argument("name", help="Feature name (kebab-case, e.g., 'user-profile')")
+    parser.add_argument("name", help="Lowercase kebab-case or snake_case; user-profile and user_profile both generate userprofile (existing modules are not renamed)")
     parser.add_argument("--package", required=True, help="Base package name (e.g., 'com.example.app')")
     parser.add_argument("--path", required=True, help="Project root path")
     
@@ -358,7 +382,10 @@ def main():
     print(f"   Path: {project_path}")
     print()
     
-    generate_feature_module(args.name, args.package, project_path)
+    try:
+        generate_feature_module(args.name, args.package, project_path)
+    except (ValueError, OSError) as error:
+        parser.exit(1, f"Error: {error}\n")
 
 
 if __name__ == "__main__":

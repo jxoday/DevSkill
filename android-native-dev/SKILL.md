@@ -19,12 +19,13 @@ Before starting development, assess the current project state:
 | Scenario | Characteristics | Approach |
 |----------|-----------------|----------|
 | **Empty Directory** | No files present | Full initialization required, including Gradle Wrapper |
-| **Has Gradle Wrapper** | `gradlew` and `gradle/wrapper/` exist | Use `./gradlew` directly for builds |
+| **Has Gradle Wrapper** | Wrapper scripts and `gradle/wrapper/` exist | Use the project's wrapper for the current platform |
 | **Android Studio Project** | Complete project structure, may lack wrapper | Check wrapper, run `gradle wrapper` if needed |
 | **Incomplete Project** | Partial files present | Check missing files, complete configuration |
 
 **Key Principles**:
-- Before writing business logic, ensure `./gradlew assembleDebug` succeeds
+- Before building, inspect the wrapper, settings, target module plugins, build types, flavors, and project/CI verification commands. Select the smallest relevant compile or test task; do not require a full build before every logic edit.
+- Use `./gradlew` on macOS/Linux and `gradlew.bat` on Windows. All module, variant, device and task names below are examples, not defaults; discover actual tasks when unclear.
 - If `gradle.properties` is missing, create it first and configure AndroidX
 
 ### 1.1 Required Files Checklist
@@ -257,6 +258,8 @@ user?.let { processUser(it) }
 
 **Exception Handling**:
 ```kotlin
+import kotlinx.coroutines.CancellationException
+
 // ❌ Avoid: Random try-catch in business layer swallowing exceptions
 fun loadData() {
     try {
@@ -266,10 +269,12 @@ fun loadData() {
     }
 }
 
-// ✅ Recommended: Let exceptions propagate, handle at appropriate layer
+// ✅ Result contract: wrap failures, but always propagate coroutine cancellation
 suspend fun loadData(): Result<Data> {
     return try {
         Result.success(api.fetch())
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: Exception) {
         Result.failure(e)  // Wrap and return, let caller decide handling
     }
@@ -277,11 +282,13 @@ suspend fun loadData(): Result<Data> {
 
 // ✅ Recommended: Unified handling in ViewModel
 viewModelScope.launch {
-    runCatching { repository.loadData() }
+    repository.loadData()
         .onSuccess { _uiState.value = UiState.Success(it) }
         .onFailure { _uiState.value = UiState.Error(it.message) }
 }
 ```
+
+Do not wrap a `Result`-returning call in `runCatching`: this creates a nested result and can route an inner failure through outer success. For throwing suspend APIs, handle expected failures at the caller and rethrow `CancellationException`; plain `runCatching` also catches cancellation.
 
 ### 3.3 Threading & Coroutines (Critical)
 
@@ -289,9 +296,10 @@ viewModelScope.launch {
 
 | Operation Type | Thread | Description |
 |----------------|--------|-------------|
-| UI Updates | `Dispatchers.Main` | Update View, State, LiveData |
-| Network Requests | `Dispatchers.IO` | HTTP calls, API requests |
-| File I/O | `Dispatchers.IO` | Local storage, database operations |
+| View operations / LiveData.value | `Dispatchers.Main` | Follow the UI API's thread contract |
+| MutableStateFlow.value / update | Any dispatcher | Thread-safe; use `update` for atomic read-modify-write |
+| Blocking network or file I/O | `Dispatchers.IO` | Move blocking work off Main inside the data layer |
+| Main-safe suspend APIs | Call from Main if convenient | Follow the API contract; `suspend` alone does not guarantee main-safety |
 | Compute Intensive | `Dispatchers.Default` | JSON parsing, sorting, encryption |
 
 **Correct Usage**:
@@ -301,10 +309,8 @@ viewModelScope.launch {
     // Default Main thread, can update UI State
     _uiState.value = UiState.Loading
     
-    // Switch to IO thread for network request
-    val result = withContext(Dispatchers.IO) {
-        repository.fetchData()
-    }
+    // Repository owns dispatcher switching for its blocking work
+    val result = repository.fetchData()
     
     // Automatically returns to Main thread, update UI
     _uiState.value = UiState.Success(result)
@@ -312,29 +318,30 @@ viewModelScope.launch {
 
 // In Repository (suspend functions should be main-safe)
 suspend fun fetchData(): Data = withContext(Dispatchers.IO) {
-    api.getData()
+    blockingClient.fetchData()
 }
 ```
 
 **Common Mistakes**:
 ```kotlin
-// ❌ Wrong: Updating UI on IO thread
+// ❌ Wrong: Accessing an Android View on IO
 viewModelScope.launch(Dispatchers.IO) {
-    val data = api.fetch()
-    _uiState.value = data  // Crash or warning!
+    textView.text = "Loaded"
 }
 
 // ❌ Wrong: Executing time-consuming operation on Main thread
 viewModelScope.launch {
-    val data = api.fetch()  // Blocking main thread! ANR
+    val data = blockingClient.fetchData()  // Blocks Main; risks ANR
 }
 
-// ✅ Correct: Fetch on IO, update on Main
+// ✅ Correct: Call a main-safe repository from Main
 viewModelScope.launch {
-    val data = withContext(Dispatchers.IO) { api.fetch() }
+    val data = repository.fetchData()
     _uiState.value = data
 }
 ```
+
+Updating `MutableStateFlow.value` on IO is also valid; it is not a View operation. Other state containers have their own concurrency contracts. See [Android coroutine guidance](https://developer.android.com/kotlin/coroutines/coroutines-best-practices) and [MutableStateFlow.value](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-mutable-state-flow/value.html).
 
 ### 3.4 Visibility Rules
 
@@ -550,49 +557,19 @@ Recommended: Use Adaptive Icon (Android 8+):
 | Color | color_ | `color_primary` |
 | String | - | `app_name`, `btn_submit` |
 
-### 5.3 Avoid Android Reserved Names (Important)
+### 5.3 Resource Names and Namespaces
 
-Variable names, resource IDs, colors, icons, and XML elements **must not** use Android reserved words or system resource names. Using reserved names causes build errors or resource conflicts.
+Names such as `background`, `white`, `icon`, and `button` are not universally reserved by Android. App resources (`R.color.background`, `@color/background`) are distinct from framework resources (`android.R.color.white`, `@android:color/white`). Kotlin variables such as `icon` are also valid.
 
-**Common Reserved Names to Avoid**:
-
-| Category | Reserved Names (Do NOT Use) |
-|----------|----------------------------|
-| Colors | `background`, `foreground`, `transparent`, `white`, `black` |
-| Icons/Drawables | `icon`, `logo`, `image`, `drawable` |
-| Views | `view`, `text`, `button`, `layout`, `container` |
-| Attributes | `id`, `name`, `type`, `style`, `theme`, `color` |
-| System | `app`, `android`, `content`, `data`, `action` |
-
-**Examples**:
+Use descriptive names and the project's existing prefix conventions for clarity, not as a supposed compiler requirement. Respect each resource type's naming rules and investigate actual duplicate definitions or resource-merging errors rather than banning ordinary words. XML tags and attributes must follow their schema; variable names follow Kotlin/Java rules.
 
 ```xml
-<!-- ❌ Wrong: Using reserved names -->
+<!-- Both names are valid; choose the one that communicates intent -->
 <color name="background">#FFFFFF</color>
-<color name="icon">#000000</color>
-
-<!-- ✅ Correct: Add prefix or specific naming -->
-<color name="app_background">#FFFFFF</color>
-<color name="icon_primary">#000000</color>
+<color name="screen_background">#FFFFFF</color>
 ```
 
-```kotlin
-// ❌ Wrong: Variable names conflict with system
-val icon = R.drawable.my_icon
-val background = Color.White
-
-// ✅ Correct: Use descriptive names
-val appIcon = R.drawable.my_icon
-val screenBackground = Color.White
-```
-
-```xml
-<!-- ❌ Wrong: Drawable name conflicts -->
-<ImageView android:src="@drawable/icon" />
-
-<!-- ✅ Correct: Add prefix -->
-<ImageView android:src="@drawable/ic_home" />
-```
+See [Android app resources](https://developer.android.com/guide/topics/resources/providing-resources).
 
 ---
 
@@ -613,24 +590,26 @@ val screenBackground = Color.White
 
 1. **Read the complete error message first**: Locate file and line number
 2. **Check recent changes**: Problems usually in latest modifications
-3. **Clean Build**: `./gradlew clean assembleDebug`
-4. **Check dependency versions**: Version conflicts are common causes
-5. **Refresh dependencies if needed**: Clear cache and rebuild
+3. **Reproduce narrowly**: Run the affected module and variant's failing task; inspect the first meaningful error before changing anything
+4. **Check the implicated inputs**: Imports, resource definitions, dependency versions and configuration, based on the error evidence
+5. **Verify the fix**: Re-run that task and relevant tests; expand to assemble/integration checks when the change warrants it
+
+Do not run `clean`, delete caches, or refresh dependencies routinely. Use them only when evidence implicates stale outputs or dependency resolution, after confirming the affected scope and authorization.
 
 ### 6.3 Debugging Commands
 
 ```bash
-# Clean and build
-./gradlew clean assembleDebug
+# Examples only: replace module, variant and task with discovered values
+./gradlew :<module>:compile<Variant>Kotlin
 
 # View dependency tree (investigate conflicts)
-./gradlew :app:dependencies
+./gradlew :<module>:dependencies --configuration <configuration>
 
 # View detailed errors
-./gradlew assembleDebug --stacktrace
+./gradlew :<module>:<failingTask> --stacktrace
 
-# Refresh dependencies
-./gradlew --refresh-dependencies
+# Only when dependency-resolution evidence justifies a refresh
+./gradlew :<module>:<failingTask> --refresh-dependencies
 ```
 
 ---
