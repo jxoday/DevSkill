@@ -11,7 +11,7 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 - 🛠️ **多领域专家技能**：覆盖 Android 原生开发（MD3/Vitals）、iOS 应用开发（SwiftUI/SnapKit/HIG）、界面设计工程与流体动画（Emil Kowalski 经典动效集）、现代旗舰前端（动效/多媒体生成/字体库）、全栈架构、着色器（Shader）等领域。
 - 📦 **渐进式资产与知识库**：采用 Progressive Disclosure 渐进式加载，深度知识库（`references/`）、自动化工具（`scripts/`）与模版（`templates/`）按需查阅，**零多余 Token 消耗**。
 - 🇨🇳 **本地化工程增强**：提供中文 Code Review 沟通模板、中文技术文档排版规范、国内 Git 平台（Gitee/GitLab/Coding）协作工作流。
-- 📐 **严格工业级代码守则**：内置 `AGENTS.md` 11 大核心研发规范，强约束五大流程硬门禁、代码事实源校准、顶部标准导包与阿里规范注释，确保生成代码高质量交付。
+- 📐 **严格工业级代码守则**：内置 `AGENTS.md` 12 大核心研发规范，强约束七大质量硬门禁与共同安全底线、代码事实源校准、顶部标准导包与规范文档注释，确保生成代码高质量交付。
 
 ---
 
@@ -68,6 +68,7 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 | **`ui-ux-pro-max`** | **全栈 UI/UX 设计智能引擎 (v2.13.0)**<br>• 79 种可搜索 UI 风格（50 种 active，涵盖新拟态/玻璃拟态/便当网格/极简等）<br>• 192 种产品类型专属调色板与推理规则（涵盖 SaaS、电商、金融、医疗等）<br>• 74 种精选字体组合与 Google Fonts 导入、25 种图表类型推荐<br>• 119 条工业级 UX 指南、22 种技术栈（React/Vue/Compose/SwiftUI/Flutter 等）支持<br>• 内置 BM25 + 正则混合搜索与一键设计系统生成推理引擎（`scripts/search.py`） | 页面原型设计、色彩与字体决策、设计系统搭建、无障碍（A11y）合规审计、技术栈专用 UI 代码生成。 |
 | **`ui-styling`** | **现代 UI 组件与样式工程**<br>• 结合 shadcn/ui 组件系统（Radix UI 基础）与 Tailwind CSS 实用优先类库<br>• Canvas 可视化设计、海报设计与即时原型反馈<br>• 深度适配暗黑模式（Dark Mode）与响应式移动端断点 | 现代前端组件开发、页面排版与样式美化、主题定制与海报排版。 |
 | **`design-system`** | **三层设计令牌与组件工程架构**<br>• Primitive ➔ Semantic ➔ Component 三层设计令牌（Design Tokens）体系<br>• CSS 变量系统构建、间距/字体比例尺与设计到代码的交付契约（Handoff）<br>• 品牌合规的幻灯片/演示文稿生成 | 企业级设计系统沉淀、设计规范落地、组件状态与样式变量标准化。 |
+| **`anti-ui-slop`** | **反 AI 界面同质化（UI Slop）工作流 (v1.4.0)**<br>• 80 万+ 真实 web/iOS 截图锚定产品专属界面（可选付费 Uizze MCP，不接也可用）<br>• 设计契约 + 全状态覆盖 + 硬性 finish gate（`scripts/count-finish.mjs` 计数验收）<br>• 分离上下文评审：写代码的 agent 不得给自己打分，一次改一处、最多三轮<br>• 覆盖 web 与原生 iOS，含 image→UI 流程与视觉证据留档（Apache-2.0） | 设计/实现/改版/上线前审查 web 或 iOS 界面，杜绝 AI 生成千篇一律的界面。 |
 | **`design`** | **全景统一设计专家**<br>• 品牌视觉识别、Logo AI 生成（55 种风格）、企业 VI 识别系统（CIP，50 项交付物）<br>• 社交媒体多平台适配（Facebook/Twitter/LinkedIn/Instagram/TikTok 等）<br>• 矢量图标设计（SVG）、多尺寸 Banner 广告图与设计规范交付 | 品牌形象设计、Logo 与海报生成、社媒多渠道营销视觉物料输出。 |
 | **`banner-design`** | **全尺寸横幅与营销图设计**<br>• 涵盖社交媒体封面、广告条（Banner）、网站 Hero 主图、线下印刷等多场景<br>• 支持极简、渐变、立体、粗野、复古等 22 种艺术风格与自包含排版布局 | 营销活动 Banner、网站 Hero 视觉、信息流广告图排版与设计。 |
 | **`slides`** | **数据驱动的 HTML 演示文稿生成**<br>• 基于 Chart.js 的交互式数据可视化幻灯片<br>• 结合文案公式（Copywriting Formulas）与结构化排版布局 | 技术分享 PPT、商业商业计划书（Pitch Deck）、数据汇报大屏。 |
@@ -96,78 +97,99 @@ DevSkill 是专为 AI Agent（如 Claude Code、Codex、Gemini CLI、Hermes Agen
 
 > README 负责工作流总览与技能路由；具体触发条件、例外和 SOP 以对应的 `SKILL.md` 为准；项目级强制约束以 [`AGENTS.md`](AGENTS.md) 为准。
 
-### 事实源与主流程
+### 事实源与双模式分流
 
-所有请求先通过 `using-superpowers` 判断适用技能。创造性实现进入设计与计划流程；排错和极限推敲按条件触发，不是所有任务都必须顺序经过的固定阶段。
+所有请求先通过 `using-superpowers` 判断适用技能。命中**工程影响型写入**（新增功能、Bug 修复、重构、行为变更、源码与测试修改、构建/依赖/配置/数据库迁移、API/架构/安全/部署/CI 变更，以及会改变 Agent 行为的规则修改）时，必须先确定开发模式并声明，再进入实施；纯只读分析、状态查询、代码阅读与不改变语义的排版修正不进入开发模式。
+
+| 开发模式 | 适用范围 | 强制链路 |
+| :--- | :--- | :--- |
+| **`/grill-me` 轻量流程**（默认主力） | 单模块或局部功能、定位明确的 Bug 与性能调优、UI 视觉与交互动效、文档与规则修改、脚手架与局部重构，以及所有未命中完整流程标准的常规任务 | `grilling` 推敲并确认方案 → 直接实施 → 异常时 `systematic-debugging` → 最小必要验证 → 交付 |
+| **`superpowers` 完整流程** | 从 0 到 1 新项目、跨模块或前后端联动、核心架构重构、数据库 Schema 迁移、认证/支付/权限/安全等高风险变更、需求高度模糊，或明确要求分步计划、TDD 与多角色协作 | `grilling` 推敲并确认方案 → `writing-plans` 计划获批 → TDD → Code Review → 反馈复审 → `verification-before-completion` 完整验证 → 交付 |
+
+两种模式的共同前置铁律：**任何实现、架构选型与技术决策，都必须先经 `grilling`（`/grill-me`）极限推敲并获用户明确确认方案，确认之后方可编写实现代码**；涉及 UI、视觉与交互设计时，设计阶段只产出独立 HTML 示例。
 
 ```mermaid
 flowchart TD
     A[用户请求] --> B[using-superpowers 技能路由]
-    B --> C{创造性实现或行为变更?}
-    C -- 否 --> D[只读回答或按适用技能处理]
-    C -- 是 --> E[brainstorming 设计与用户批准]
-    E --> F{复杂架构、重构或压力测试?}
-    F -- 是 --> G[grilling 收敛设计决策]
-    F -- 否 --> H[writing-plans 制定实施计划]
-    G --> H
-    H --> I[选择执行方式]
-    I --> J[TDD 实现与局部测试]
-    J --> K{出现 Bug、测试失败或异常?}
-    K -- 是 --> L[systematic-debugging 根因调查]
-    L --> J
-    K -- 否 --> M[requesting-code-review 代码审查]
-    M --> N[receiving-code-review 验证反馈]
-    N --> O{代码发生变更?}
-    O -- 是 --> P[重新测试并复审]
-    P --> N
-    O -- 否 --> Q[verification-before-completion 完整验证]
-    Q --> R[交付]
+    B --> C{工程影响型写入?}
+    C -- 否 --> D[只读回答 / 按适用技能处理]
+    C -- 是 --> E[声明开发模式: /grill-me 轻量 或 superpowers 完整]
+    E --> F[grilling 极限推敲, 暴露假设与边界]
+    F --> G{用户明确确认方案?}
+    G -- 否 --> F
+    G -- 是 --> H{涉及 UI / 视觉 / 交互设计?}
+    H -- 是 --> I[只出独立 HTML 示例, 严禁改业务代码]
+    I --> J{明确告知按设计修改代码?}
+    J -- 否 --> I
+    J -- 是 --> K{开发模式}
+    H -- 否 --> K
+    K -- /grill-me 轻量 --> L[直接实施]
+    L --> M{Bug / 测试或构建失败?}
+    M -- 是 --> N[systematic-debugging 根因调查]
+    N --> L
+    M -- 否 --> O[最小必要验证]
+    O --> P[交付]
+    K -- superpowers 完整 --> Q[writing-plans 制定计划]
+    Q --> R{计划获批?}
+    R -- 否 --> Q
+    R -- 是 --> S[TDD 红—绿—重构]
+    S --> T[requesting-code-review 代码审查]
+    T --> U[receiving-code-review 验证反馈]
+    U --> V{代码发生变更?}
+    V -- 是 --> S
+    V -- 否 --> W[verification-before-completion 完整验证]
+    W --> P
 ```
 
-主流程涉及的技能：[`using-superpowers`](using-superpowers/SKILL.md)、[`brainstorming`](brainstorming/SKILL.md)、[`grilling`](grilling/SKILL.md)、[`writing-plans`](writing-plans/SKILL.md)、[`test-driven-development`](test-driven-development/SKILL.md)、[`systematic-debugging`](systematic-debugging/SKILL.md)、[`requesting-code-review`](requesting-code-review/SKILL.md)、[`receiving-code-review`](receiving-code-review/SKILL.md) 和 [`verification-before-completion`](verification-before-completion/SKILL.md)。
+主流程涉及的技能：[`using-superpowers`](using-superpowers/SKILL.md)、[`grilling`](grilling/SKILL.md)、[`writing-plans`](writing-plans/SKILL.md)、[`executing-plans`](executing-plans/SKILL.md)、[`test-driven-development`](test-driven-development/SKILL.md)、[`systematic-debugging`](systematic-debugging/SKILL.md)、[`requesting-code-review`](requesting-code-review/SKILL.md)、[`receiving-code-review`](receiving-code-review/SKILL.md)、[`verification-before-completion`](verification-before-completion/SKILL.md) 与按需调用的 [`brainstorming`](brainstorming/SKILL.md)。
 
 ### 条件分支
 
-- **极限推敲：** 仅在复杂系统设计、重构、模块拆分、架构决策或用户明确要求压力测试时调用 `grilling`。
-- **系统化排错：** 仅在 Bug、测试失败、构建失败、性能问题或异常行为出现时调用 `systematic-debugging`。
-- **TDD：** 新功能、Bug 修复、重构和行为变更默认遵循红—绿—重构循环。一次性原型、生成代码或配置文件等例外，必须先征得用户同意。
-- `grilling` 和 `systematic-debugging` 都是条件分支，不应被理解为每次开发都要依次执行的固定阶段。
+- **方案确认（两模式必备）：** 命中工程影响型写入后，无论选择哪种模式，都必须先用 `grilling` 推敲需求、关键决策、架构选型与边界情况，并向用户呈递带推荐值的决策选项树；**方案未获明确确认，严禁编写实现代码**。
+- **UI 设计隔离：** 页面原型、视觉重构、组件样式与交互动效类任务，设计阶段**只出独立 HTML 示例**供浏览器预览，统一存放在 `docs/.generated/examples/` 下；只有用户明确告知「按照设计修改代码」后，才可将设计落地到正式业务代码。
+- **系统化排错（两模式必备）：** 出现 Bug、测试失败、构建失败、性能问题或异常行为时，均须转入 `systematic-debugging` 定位根因，不得盲目试错。
+- **按需发散：** 需求高度模糊、需要先做方案发散时调用 `brainstorming`；`/grill-me` 轻量流程下不自动激活。
+- **完整流程专属：** `writing-plans`、`executing-plans`、`test-driven-development`、`requesting-code-review`、`receiving-code-review` 与 `verification-before-completion` 仅在 `superpowers` 完整流程强制执行；`/grill-me` 轻量流程明确豁免这些强制链路，仅在用户明确要求时调用。
 
 ### 执行方式选择
 
-计划获批后，根据任务依赖、会话位置和平台能力选择一种执行方式：
+开发模式确定后，普通任务默认在当前会话内联执行，不再重复询问执行方式；仅以下情况按场景切换：
 
 | 场景 | 使用技能 | 选择依据 |
 | :--- | :--- | :--- |
-| 普通任务 | 当前会话内联执行 | 默认方式，不再重复询问执行方式 |
-| 需要分批检查点或单独会话执行书面计划 | [`executing-plans`](executing-plans/SKILL.md) | 批量执行计划，并在检查点汇报 |
+| 普通任务（含 `/grill-me` 轻量流程全部任务） | 当前会话内联执行 | 默认方式，方案确认后直接实施 |
+| 需要分批检查点或隔离会话执行书面计划 | [`executing-plans`](executing-plans/SKILL.md) | `superpowers` 完整流程的批量执行，并在检查点汇报 |
 | 用户提供 YAML 工作流，或明确要求多个角色协作 | [`workflow-runner`](workflow-runner/SKILL.md) | 按依赖关系拓扑执行角色步骤 |
 
 ### 阶段产物与质量门禁
 
-| 阶段 | 主要产物 | 进入下一阶段的门禁 |
-| :--- | :--- | :--- |
-| [`brainstorming`](brainstorming/SKILL.md) | 用户批准的设计规格 | 设计未获批准，不得进入实现 |
-| [`grilling`](grilling/SKILL.md) | 收敛的设计树、上下文或 ADR | 仅复杂决策按需执行，关键分歧必须先收敛 |
-| [`writing-plans`](writing-plans/SKILL.md) | 包含精确文件、步骤和验证命令的实施计划 | 计划必须通过覆盖度、占位符和一致性自检 |
-| [`test-driven-development`](test-driven-development/SKILL.md) | 红—绿—重构证据 | 没有验证过的失败测试，不得编写生产代码 |
-| Code Review | 分级发现及逐项技术裁定 | 承重问题必须修复并复审 |
-| [`verification-before-completion`](verification-before-completion/SKILL.md) | 当前变更对应的完整测试、构建或静态检查输出 | 没有新鲜证据，不得宣称完成 |
+| 环节 | `/grill-me` 轻量流程 | `superpowers` 完整流程 | 硬门禁 |
+| :--- | :--- | :--- | :--- |
+| 路由与模式 | [`using-superpowers`](using-superpowers/SKILL.md) 判定后声明模式 | 同左 | 模式选择门禁：先定模式，再动手 |
+| 方案推敲 | [`grilling`](grilling/SKILL.md) 决策树收敛 | [`grilling`](grilling/SKILL.md) 决策树收敛 | **方案确认门禁（两模式必备，未确认不得编码）** |
+| 视觉设计 | 仅出独立 HTML 示例 | 仅出独立 HTML 示例 | **UI 设计 HTML 隔离门禁（未授权不得改业务代码）** |
+| 实施计划 | 不强制 | [`writing-plans`](writing-plans/SKILL.md) 输出精确文件与步骤 | 计划须通过覆盖度、占位符与一致性自检 |
+| 编码实现 | 直接实施 | [`test-driven-development`](test-driven-development/SKILL.md) 红—绿—重构 | TDD 仅完整流程强制 |
+| 代码审查 | 不强制 | [`requesting-code-review`](requesting-code-review/SKILL.md) → [`receiving-code-review`](receiving-code-review/SKILL.md) | 承重问题必须修复并复审 |
+| 验证 | 与改动风险匹配的最小必要验证 | [`verification-before-completion`](verification-before-completion/SKILL.md) 完整验证 | 交付验证门禁：无新鲜证据不得宣称完成 |
+| 交付 | 交付 | 交付 | 极简主义与 YAGNI 门禁 + 共同安全底线 |
 
 ### 审查、验证与暂停条件
 
-交付顺序固定为：
+两种模式的交付顺序分别为：
 
 ```text
-实现与局部测试 → Code Review → 验证反馈 → 修复与复审 → 完整验证 → 交付
+/grill-me：推敲 → 确认方案 → [UI: 只出 HTML 示例 → 获授权改码] → 直接实施 → 异常时根因排查 → 最小必要验证 → 交付
+superpowers：推敲 → 确认方案 → [UI: 只出 HTML 示例 → 获授权改码] → 计划获批 → TDD → Code Review → 反馈复审 → 完整验证 → 交付
 ```
 
 审查后只要代码发生变化，之前的验证证据就会失效，必须重新运行相关测试、构建或静态检查。遇到以下情况时应暂停执行并请求用户决策：
 
+- 技术方案、架构选型或关键决策尚未经 `grilling` 推敲并获得明确确认；
+- 处于 UI 设计阶段、仅完成 HTML 示例，却准备修改正式业务代码；
 - 关键需求存在会改变最终结果的歧义；
-- 后续操作需要扩大用户已经授权的范围；
-- TDD 例外尚未获得用户批准；
-- 连续审查后仍存在影响正确性或交付的承重问题；
+- 执行依赖缺失、环境不可用或验证反复失败；
+- 连续审查后仍存在影响正确性、安全性或交付的承重问题；
 - 当前环境无法提供足以支撑完成断言的验证证据。
 
 ---
@@ -231,11 +253,11 @@ cp -r /path/to/DevSkill/<skill-name> .agents/skills/
 
 ## 📜 工作流规范配置 (AGENTS.md)
 
-本项目根目录下提供了开箱即用的 `AGENTS.md`，内含 **11 大核心研发规范**，用于约束 Agent 的底层行为：
+本项目根目录下提供了开箱即用的 `AGENTS.md`，内含 **12 大核心研发规范**，用于约束 Agent 的底层行为：
 
 1. **指令优先级与授权边界**：明确用户指令与项目 `AGENTS.md` 的最高优先级，未经授权严禁擅自提交、推送或修改外部系统。
 2. **人设与称谓定制**：支持灵活定制 Agent 角色设定与交互称呼。
-3. **Skill 优先与五大质量硬门禁**：前置路由执行 `using-superpowers`；设计批准门禁、TDD 门禁、根因排查门禁（`systematic-debugging`）、代码审查门禁与交付验证门禁（`verification-before-completion`）。
+3. **Skill 优先与七大质量硬门禁**：前置路由执行 `using-superpowers`；工程影响型写入自动分流到 `/grill-me` 轻量流程或 `superpowers` 完整流程，并由模式选择门禁、方案确认门禁、UI 设计 HTML 隔离门禁、极简主义与 YAGNI 门禁、完整流程门禁、根因调查门禁（`systematic-debugging`）与交付验证门禁（`verification-before-completion`）兜底，另设共同安全底线。
 4. **授权、暂停与工作区保护**：遇到关键需求歧义或验证失败时强制暂停；严禁破坏性覆盖未跟踪资产。
 5. **回答复盘与透明度规范**：末尾强制显式总结「本次回答使用的 Skill」，并附带本地链接与职责说明。
 6. **代码事实源与零假设校准**：零信任代码记忆（Zero-Trust Memory），先查磁盘最新状态再动笔，支持 Grep 先行与区间切片读取。
@@ -244,6 +266,7 @@ cp -r /path/to/DevSkill/<skill-name> .agents/skills/
 9. **前后端构建与验证规范**：前端分流快速构建、编译日志静默纪律（构建成功静默、失败强制折叠收起）。
 10. **iOS 构建与验证规范**：Workspace/Project 动态探测、Debug 模拟器快速编译验证与静默日志规范。
 11. **文档归档与管理规范 (Documentation Management Mandate)**：研发过程文档必须统一归档至 `docs/` 目录，命名规范，严禁污染项目根目录。
+12. **极简主义与 YAGNI 开发规范 (Minimalism & YAGNI Mandate)**：7 级决策阶梯（YAGNI ➔ 现有复用 ➔ 标准库 ➔ 平台原生 ➔ 就地内联 ➔ 最小实现 ➔ 抽象重构）全流程常驻，严禁推测性代码、单实现接口、空壳别名与无调用方死代码。
 
 ---
 
